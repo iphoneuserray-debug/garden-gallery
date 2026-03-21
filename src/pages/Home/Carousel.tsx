@@ -1,12 +1,23 @@
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import ItemCard from "../../components/ItemCard";
 import Autoplay from "embla-carousel-autoplay"
+import { Link } from "react-router-dom";
 
-export default function CarouselCard() {
-    return (<>
+interface CarouselCardProps {
+    title: string;
+}
+
+export default function CarouselCard({ title }: CarouselCardProps) {
+    return (<div>
+        <Link to={`/${title}`}>
+            <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0 m-5">
+                <span className="border-b pb-2">{title}</span>
+            </h2>
+        </Link>
         <Carousel
             opts={{
                 align: "start",
+                loop: true,
             }}
             plugins={[
                 Autoplay({
@@ -24,8 +35,7 @@ export default function CarouselCard() {
                     </CarouselItem>
                 ))}
             </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
+
         </Carousel>
-    </>)
+    </div>)
 }

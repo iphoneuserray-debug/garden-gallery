@@ -1,4 +1,3 @@
-import { Card, CardAction, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 
@@ -14,18 +13,11 @@ interface Props {
 export default function ItemCard({ title, price, imgSrc, badge }: Props) {
     return (
         <Link to={`/detail/${title}`} >
-            <Card className="relative max-w-[280px] mx-auto pt-0 overflow-hidden hover:shadow-lg">
-                <img src={imgSrc} alt="Image" className="relative z-20 aspect-[4/5] object-cover" />
-                <CardHeader>
-                    <CardTitle>{title}</CardTitle>
-                    <CardDescription>
-                        {price}
-                    </CardDescription>
-                    <CardAction>
-                        <Badge variant="secondary">{badge}</Badge>
-                    </CardAction>
-                </CardHeader>
-            </Card>
+            <img src={imgSrc} alt={`${title}-Image`} className="relative z-20 aspect-[4/5] object-cover" />
+            <div className="ml-1">
+                <h4 className="scroll-m-20 text-2xl font-semibold tracking-tight">{title}</h4>
+                <h5 className="scroll-m-20 text-xl font-semibold tracking-tight">{price}</h5>
+            </div>
         </Link >
     )
 }
