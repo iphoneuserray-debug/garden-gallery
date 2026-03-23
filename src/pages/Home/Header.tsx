@@ -1,15 +1,16 @@
 import { Link } from "react-router-dom";
+import { User } from "lucide-react";
 
 export default function Header() {
     return (
-        <div className="w-full flex items-center justify-between px-6 py-4">
+        <div className="w-full flex items-center justify-between pl-70 pr-70 py-4 relative bg-[#CCBEB1]">
 
-            {/* 左边 Login */}
+            {/* 左边 用户图标 */}
             <Link
                 to="/login"
-                className="text-sm font-medium text-gray-700 border px-4 py-2 rounded-full hover:bg-gray-100 transition"
+                className="flex items-center justify-center w-10 h-10 rounded-full border shadow-sm hover:bg-gray-100 transition"
             >
-                Login
+                <User size={20} />
             </Link>
 
             {/* 中间 Logo */}
