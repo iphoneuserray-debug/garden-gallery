@@ -24,6 +24,7 @@ export default function Home() {
                 <CarouselCard title="Events" />
             </div>
 
+            {/* 底部 */}
             <Footer />
         </div>
     );
