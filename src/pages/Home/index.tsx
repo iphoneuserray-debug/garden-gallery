@@ -3,6 +3,7 @@ import HeroCarousel from "./HeroCarousel";
 import AvaPanel from "./AvatarPanel";
 import flowerCategories from "@/MockData/flowerCategories";
 import CarouselCard from "./Carousel";
+import Footer from "@/components/Footer";
 
 export default function Home() {
     return (
@@ -22,6 +23,8 @@ export default function Home() {
                 <CarouselCard title="Best Seller" />
                 <CarouselCard title="Events" />
             </div>
+
+            <Footer />
         </div>
     );
 }
