@@ -42,11 +42,13 @@ export default function HeroCarousel() {
                             key={index}
                             className="min-w-full"
                         >
-                            <img
-                                src={src}
-                                alt={`banner-${index + 1}`}
-                                className="h-[420px] w-full object-cover"
-                            />
+                            <div className="w-full aspect-[16/6]">
+                                <img
+                                    src={src}
+                                    alt={`banner-${index + 1}`}
+                                    className="h-full w-full object-cover"
+                                />
+                            </div>
                         </div>
                     ))}
                 </div>
