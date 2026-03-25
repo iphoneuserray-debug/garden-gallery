@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -64,6 +65,12 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                     <Button type="submit" className="w-full mt-6">
                         Login
                     </Button>
+
+                    <div className="text-center mt-4">
+                        <Link to="/" className="text-sm text-primary hover:text-primary/80 underline transition-colors">
+                            Back
+                        </Link>
+                    </div>
                 </form>
             </Card>
         </div>
