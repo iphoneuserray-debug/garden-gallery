@@ -1,6 +1,11 @@
 import { useState } from "react";
+<<<<<<< HEAD
 import { Menu, User } from "lucide-react";
 import { Link } from "react-router-dom";
+=======
+import { Cart } from "../Cart";
+import { Menu } from "lucide-react";
+>>>>>>> 2ea04b2a2ab458326c636e7fa83ec5c22ba72d0e
 import NavMenu from "./NavMenu";
 import NavSearch from "./NavSearch";
 

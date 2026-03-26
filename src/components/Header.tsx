@@ -42,6 +42,7 @@ export default function Header() {
                     <NavSearch />
                 </div>
 
+<<<<<<< HEAD
                 {/* Cart (always visible) */}
                 <Cart />
 
@@ -49,6 +50,17 @@ export default function Header() {
                 <Link
                     to="/login"
                     className="hidden md:flex items-center justify-center w-10 h-10 rounded-full border shadow-sm hover:bg-gray-100 transition"
+=======
+                {/* Cart */}
+                <div className="hidden md:block">
+                    <Cart />
+                </div>
+
+                {/* User icon */}
+                <Link
+                    to="/login"
+                    className="flex items-center justify-center w-10 h-10 rounded-full border shadow-sm hover:bg-gray-100 transition"
+>>>>>>> 2ea04b2a2ab458326c636e7fa83ec5c22ba72d0e
                 >
                     <User size={20} />
                 </Link>
