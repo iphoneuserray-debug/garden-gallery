@@ -8,9 +8,9 @@ interface CarouselCardProps {
 }
 
 export default function CarouselCard({ title }: CarouselCardProps) {
-    return (<div>
+    return (<div className="w-full max-w-5xl overflow-hidden">
         <Link to={`/${title}`}>
-            <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0 m-5">
+            <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight mb-3 mt-1 ml-1">
                 <span className="border-b pb-2">{title}</span>
             </h2>
         </Link>
@@ -24,14 +24,12 @@ export default function CarouselCard({ title }: CarouselCardProps) {
                     delay: 4000,
                 }),
             ]}
-            className="w-full max-w-5xl"
+            className="w-full"
         >
             <CarouselContent>
                 {Array.from({ length: 5 }).map((_, index) => (
                     <CarouselItem key={index} className="basis-1/2 lg:basis-1/3">
-                        <div>
-                            <ItemCard title="Rose" price="23.00$" imgSrc="https://picsum.photos/400/500" badge="Pet Friendly" />
-                        </div>
+                        <ItemCard title="Rose" price="23.00$" imgSrc="https://picsum.photos/400/500" badge="Pet Friendly" />
                     </CarouselItem>
                 ))}
             </CarouselContent>

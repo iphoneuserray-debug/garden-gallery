@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button.tsx";
 import { Field } from "@/components/ui/field.tsx";
-import { Input } from "@/components/ui/input.tsx";
 import { Cart } from "./Cart";
+import { Menu, Search } from "lucide-react";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group";
 
 export const NavBar = () => {
     const [open, setOpen] = useState(false);
@@ -11,13 +11,13 @@ export const NavBar = () => {
     return (
         <>
             {/* 左上角固定菜单按钮 */}
-            <button
+            {open ? null : <button
                 onClick={() => setOpen(!open)}
-                className="fixed top-4 left-4 z-[100] flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-md border border-gray-200 hover:bg-gray-100 transition"
+                className="flex h-12 w-12 items-center justify-start z-[100] ml-3"
                 aria-label="Toggle navigation menu"
             >
-                <span className="text-2xl leading-none">☰</span>
-            </button>
+                <span className="text-2xl leading-none"><Menu /></span>
+            </button>}
 
             {/* 遮罩层 */}
             {open && (
@@ -29,9 +29,8 @@ export const NavBar = () => {
 
             {/* 左侧折叠导航栏 */}
             <header
-                className={`fixed top-0 left-0 z-[95] h-screen w-80 bg-white shadow-xl transition-transform duration-300 ${
-                    open ? "translate-x-0" : "-translate-x-full"
-                }`}
+                className={`fixed top-0 left-0 z-[95] h-screen w-80 bg-white shadow-xl transition-transform duration-300 ${open ? "translate-x-0" : "-translate-x-full"
+                    }`}
             >
                 <div className="flex h-full flex-col px-6 py-6">
                     {/* 顶部标题和关闭按钮 */}
@@ -46,6 +45,22 @@ export const NavBar = () => {
                         >
                             ×
                         </button>
+                    </div>
+
+                    {/* 搜索框 */}
+                    <div className="mb-6">
+                        <Field orientation="vertical" className="flex flex-col gap-3">
+                            <InputGroup>
+                                <InputGroupInput
+                                    type="search"
+                                    placeholder="Search..."
+                                    className="w-full"
+                                />
+                                <InputGroupAddon align="inline-end">
+                                    <Search />
+                                </InputGroupAddon>
+                            </InputGroup>
+                        </Field>
                     </div>
 
                     {/* 导航链接 */}
@@ -66,18 +81,6 @@ export const NavBar = () => {
                             Subscription
                         </Link>
                     </nav>
-
-                    {/* 搜索框 */}
-                    <div className="mb-6">
-                        <Field orientation="vertical" className="flex flex-col gap-3">
-                            <Input
-                                type="search"
-                                placeholder="Search..."
-                                className="w-full"
-                            />
-                            <Button className="w-full">Search</Button>
-                        </Field>
-                    </div>
 
                     {/* 购物车 */}
                     <div className="mt-auto">

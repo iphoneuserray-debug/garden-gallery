@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const images = [
-    "/banner1.jpg",
-    "/banner2.jpg",
-    "/banner3.jpg",
-    "/banner4.jpg",
-    "/banner5.jpg",
-    "/banner6.jpg",
+    "https://picsum.photos/seed/banner1/1200/420",
+    "https://picsum.photos/seed/banner2/1200/420",
+    "https://picsum.photos/seed/banner3/1200/420",
+    "https://picsum.photos/seed/banner4/1200/420",
+    "https://picsum.photos/seed/banner5/1200/420",
+    "https://picsum.photos/seed/banner6/1200/420",
 ];
 
 export default function HeroCarousel() {
