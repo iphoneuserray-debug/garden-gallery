@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Field } from "@/components/ui/field.tsx";
-import { Cart } from "./Cart";
-import { Menu, Search } from "lucide-react";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group";
+import { Cart } from "../Cart";
+import { Menu } from "lucide-react";
+import NavMenu from "./NavMenu";
+import NavSearch from "./NavSearch";
 
 export const NavBar = () => {
     const [open, setOpen] = useState(false);
@@ -48,39 +47,13 @@ export const NavBar = () => {
                     </div>
 
                     {/* 搜索框 */}
-                    <div className="mb-6">
-                        <Field orientation="vertical" className="flex flex-col gap-3">
-                            <InputGroup>
-                                <InputGroupInput
-                                    type="search"
-                                    placeholder="Search..."
-                                    className="w-full"
-                                />
-                                <InputGroupAddon align="inline-end">
-                                    <Search />
-                                </InputGroupAddon>
-                            </InputGroup>
-                        </Field>
+                    <div className="mb-3">
+                        <NavSearch />
                     </div>
 
-                    {/* 导航链接 */}
-                    <nav className="mb-6 flex flex-col gap-5">
-                        <Link
-                            to="/"
-                            onClick={() => setOpen(false)}
-                            className="relative text-lg font-semibold text-gray-700 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-gray-700 after:transition-all after:duration-300 hover:after:w-full"
-                        >
-                            Home
-                        </Link>
 
-                        <Link
-                            to="/products"
-                            onClick={() => setOpen(false)}
-                            className="relative text-lg font-semibold text-gray-700 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-gray-700 after:transition-all after:duration-300 hover:after:w-full"
-                        >
-                            Subscription
-                        </Link>
-                    </nav>
+                    {/* 链接 */}
+                    <NavMenu setOpen={setOpen} />
 
                     {/* 购物车 */}
                     <div className="mt-auto">
