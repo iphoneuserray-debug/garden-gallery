@@ -1,12 +1,13 @@
-
 interface CautionProps {
     children: string;
 }
 
+// 主页滚动条
 export default function Caution({ children }: CautionProps) {
     return (
         <div className="overflow-hidden w-full">
             <div className="animate-marquee">
+                {/* 重复渲染保证循环 */}
                 {[0, 1].map(i => (
                     <span key={i} className="leading-7 bold">
                         {Array(6).fill(children).map((text, j) => (

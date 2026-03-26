@@ -8,6 +8,7 @@ import {
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 
+// 路径展示
 export function Crumb() {
     const { pathname } = useLocation();
     const segments = pathname.split("/").filter(Boolean);
@@ -20,6 +21,7 @@ export function Crumb() {
                         <Link to="/">Home</Link>
                     </BreadcrumbLink>
                 </BreadcrumbItem>
+                {/* 路径添加链接 */}
                 {segments.map((segment, index) => {
                     const href = "/" + segments.slice(0, index + 1).join("/");
                     const isLast = index === segments.length - 1;

@@ -1,6 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
 import { User } from "lucide-react";
-import { NavBar } from "./Navbar";
+import { NavBar } from "./NavBar/Navbar";
+import { LongNavBar } from "./NavBar/LongNavBar";
+import { Cart } from "./Cart";
+import NavSearch from "./NavBar/NavSearch";
 import Caution from "./Caution";
 
 export default function Header() {
@@ -9,25 +12,47 @@ export default function Header() {
     return (
         <>
             {pathname === "/" && <Caution>Pick Up Only at Melbourne Center Every Tuseday</Caution>}
-            <div className="w-full flex items-center py-4 relative bg-[#CCBEB1]">
-                <NavBar />
 
-                {/* 中间 Logo */}
-                <div className="absolute left-1/2 -translate-x-1/2">
-                    <img
-                        src="src/Image/logo.jpg"
-                        alt="logo"
-                        className="w-16 h-16 rounded-full object-cover border shadow"
-                    />
+            <div className="w-full flex items-center gap-3 px-4 py-3 bg-[#CCBEB1]">
+
+                {/* Narrow: hamburger (hidden on md+) */}
+                <div className="md:hidden">
+                    <NavBar />
                 </div>
 
-                {/* 右边 用户图标 */}
+                {/* Logo — left on wide, centered on narrow */}
+                <Link to="/" className="flex-shrink-0">
+                    <img
+                        src="logo.jpg"
+                        alt="logo"
+                        className="w-14 h-14 rounded-full object-cover border shadow"
+                    />
+                </Link>
+
+                {/* Wide: nav links (hidden on narrow) */}
+                <div className="hidden md:flex">
+                    <LongNavBar />
+                </div>
+
+                {/* Spacer */}
+                <div className="flex-1" />
+
+                {/* Wide: search (hidden on narrow) */}
+                <div className="hidden md:block">
+                    <NavSearch />
+                </div>
+
+                {/* Cart (always visible) */}
+                <Cart />
+
+                {/* User icon (wide only — narrow uses sidebar) */}
                 <Link
                     to="/login"
-                    className="ml-auto mr-4 flex items-center justify-center w-10 h-10 rounded-full border shadow-sm hover:bg-gray-100 transition"
+                    className="hidden md:flex items-center justify-center w-10 h-10 rounded-full border shadow-sm hover:bg-gray-100 transition"
                 >
                     <User size={20} />
                 </Link>
+
             </div>
         </>
     );
