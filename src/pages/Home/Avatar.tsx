@@ -8,7 +8,7 @@ export interface AvaProps {
 
 export default function Ava({ img, text }: AvaProps) {
     return (
-        <Link to={`/product/${text}`} className="flex flex-col items-center gap-x-3">
+        <Link to={`/products/${text}`} className="flex flex-col items-center gap-x-3">
             <Avatar className="size-30" >
                 <AvatarImage src={img} />
                 <AvatarFallback>CN</AvatarFallback>

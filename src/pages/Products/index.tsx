@@ -1,4 +1,7 @@
 import ItemCard from "@/components/ItemCard";
+import { useParams } from "react-router-dom";
+import FilterBar from "./FilterBar";
+import { Crumb } from "@/components/Crumb";
 
 type Product = {
     id: string;
@@ -25,11 +28,14 @@ const mockProducts: Product[] = [
 ];
 
 export default function Products() {
+    const { text } = useParams();
     return (
         <>
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight text-balance mb-5">
-                Flowers
+                {text ?? "All"}
             </h1>
+            <Crumb />
+            <FilterBar></FilterBar>
             <div className="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-4">
                 {mockProducts.map((item) => (
                     <ItemCard

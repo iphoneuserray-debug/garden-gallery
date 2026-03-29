@@ -14,7 +14,7 @@ export function Cart() {
     return (
         <Drawer direction="right">
             <DrawerTrigger asChild>
-                <Button variant="outline" className="me-4"><ShoppingCart /></Button>
+                <Button variant="ghost" className="me-4 bg-transparent hover:bg-transparent"><ShoppingCart /></Button>
             </DrawerTrigger>
             <DrawerContent>
                 <DrawerHeader>

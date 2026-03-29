@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 
 interface Props {
@@ -10,7 +9,7 @@ interface Props {
 }
 
 
-export default function ItemCard({ title, price, imgSrc, badge }: Props) {
+export default function ItemCard({ title, price, imgSrc }: Props) {
     return (
         <Link to={`/detail/${title}`} >
             <img src={imgSrc} alt={`${title}-Image`} className="relative z-20 aspect-[4/5] object-cover" />

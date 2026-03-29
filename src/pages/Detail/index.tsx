@@ -52,7 +52,7 @@ export default function Detail() {
         toast.success("Link copied");
     }
     return (<>
-        <div className="flex gap-10 content-start">
+        <div className="flex gap-10 content-start mb-10">
             <Frame images={sampleImages} />
             <div className="space-y-2">
                 <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
