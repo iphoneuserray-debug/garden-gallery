@@ -13,7 +13,7 @@ export default function Header() {
         <>
             {pathname === "/" && <Caution>Pick Up Only at Melbourne Center Every Tuseday</Caution>}
 
-            <div className="w-full flex items-center gap-3 px-4 py-3 bg-[#CCBEB1]">
+            <div className="w-full flex items-center gap-3 px-4 py-3 bg-[#CCBEB1] mt-8">
 
                 {/* Narrow NavBar */}
                 <div className="md:hidden">

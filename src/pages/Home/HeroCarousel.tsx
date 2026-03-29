@@ -52,6 +52,13 @@ export default function HeroCarousel() {
                         </div>
                     ))}
                 </div>
+                <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10">
+                    <div className="bg-white/20 text-white px-8 py-3 rounded-full backdrop-blur-md shadow-md">
+                        <p className="text-lg font-semibold tracking-wide">
+                            Every flowers blooms upon your arrival
+                        </p>
+                    </div>
+                </div>
 
                 {/* 左右按钮 */}
                 <button

@@ -2,20 +2,23 @@ interface CautionProps {
     children: string;
 }
 
-// 主页滚动条
 export default function Caution({ children }: CautionProps) {
     return (
-        <div className="overflow-hidden w-full">
-            <div className="animate-marquee">
-                {/* 重复渲染保证循环 */}
-                {[0, 1].map(i => (
-                    <span key={i} className="leading-7 bold">
-                        {Array(6).fill(children).map((text, j) => (
-                            <span key={j}>{text}<span className="px-8">·</span></span>
-                        ))}
+        <div className="fixed top-0 left-0 z-50 w-full overflow-hidden bg-[#EADBC8] text-[#3E3E3E] border-b border-white/40 backdrop-blur-sm">
+            <div className="whitespace-nowrap py-2 animate-marquee">
+                {[0, 1].map((i) => (
+                    <span key={i} className="inline-block text-sm font-semibold tracking-wide">
+                        {Array(6)
+                            .fill(children)
+                            .map((text, j) => (
+                                <span key={j}>
+                                    {text}
+                                    <span className="px-8">·</span>
+                                </span>
+                            ))}
                     </span>
                 ))}
             </div>
         </div>
-    )
+    );
 }
