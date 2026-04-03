@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "flower-store",
+      "runtimeExecutable": "/opt/homebrew/Cellar/node/25.8.1/bin/node",
+      "runtimeArgs": ["/Users/ray/playground/flower-store/node_modules/.bin/vite", "--port", "5173"],
+      "port": 5173
+    }
+  ]
+}

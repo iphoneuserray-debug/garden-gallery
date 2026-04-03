@@ -1,92 +1,110 @@
 import { useEffect, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
-const images = [
-    "https://picsum.photos/seed/banner1/1200/420",
-    "https://picsum.photos/seed/banner2/1200/420",
-    "https://picsum.photos/seed/banner3/1200/420",
-    "https://picsum.photos/seed/banner4/1200/420",
-    "https://picsum.photos/seed/banner5/1200/420",
-    "https://picsum.photos/seed/banner6/1200/420",
+const carouselImages = [
+    "https://picsum.photos/seed/portrait1/800/1000",
+    "https://picsum.photos/seed/portrait2/800/1000",
+    "https://picsum.photos/seed/portrait3/800/1000",
+    "https://picsum.photos/seed/portrait4/800/1000",
+];
+
+const categories = [
+    { label: "Event", image: "https://picsum.photos/seed/cat-event/300/400", href: "/products/Wedding" },
+    { label: "Type", image: "https://picsum.photos/seed/cat-type/300/400", href: "/products/Rose" },
+    { label: "Subscription", image: "https://picsum.photos/seed/cat-sub/300/400", href: "/products" },
 ];
 
 export default function HeroCarousel() {
     const [current, setCurrent] = useState(0);
 
-    const prevSlide = () => {
-        setCurrent((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-    };
-
-    const nextSlide = () => {
-        setCurrent((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-    };
-
     useEffect(() => {
         const timer = setInterval(() => {
-            setCurrent((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+            setCurrent((prev) => (prev + 1) % carouselImages.length);
         }, 4000);
-
         return () => clearInterval(timer);
     }, []);
 
     return (
-        <section className="w-full px-6">
-            <div className="relative mx-auto w-full overflow-hidden rounded-3xl shadow-lg">
-                {/* 图片滑动区域 */}
+        <section className="w-full flex" style={{ height: "calc(100vh - 88px)" }}>
+            {/* Left: Title + Category tiles */}
+            <div className="relative w-[48%] bg-white flex flex-col px-10 pt-10 pb-0 overflow-hidden">
+                <h1
+                    className="font-black leading-[0.88] text-black tracking-tight"
+                    style={{ fontSize: "clamp(72px, 9vw, 150px)" }}
+                >
+                    Garden
+                    <br />
+                    Gallery
+                </h1>
+
+                {/* Category tiles — overlapping collage */}
+                <div className="relative flex-1 mt-6">
+                    {categories.map((cat, i) => (
+                        <Link
+                            key={cat.label}
+                            to={cat.href}
+                            className="absolute overflow-hidden shadow-lg"
+                            style={{
+                                left: `${i * 115}px`,
+                                bottom: 0,
+                                width: "170px",
+                                height: `${260 - i * 15}px`,
+                                zIndex: i + 1,
+                            }}
+                        >
+                            <img
+                                src={cat.image}
+                                alt={cat.label}
+                                className="w-full h-full object-cover"
+                            />
+                            <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/60 to-transparent">
+                                <span className="text-white font-bold text-lg">{cat.label}</span>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
+            </div>
+
+            {/* Right: Carousel */}
+            <div className="relative w-[52%] bg-black overflow-hidden">
                 <div
-                    className="flex transition-transform duration-500 ease-in-out"
+                    className="flex h-full transition-transform duration-700 ease-in-out"
                     style={{ transform: `translateX(-${current * 100}%)` }}
                 >
-                    {images.map((src, index) => (
-                        <div
-                            key={index}
-                            className="min-w-full"
-                        >
-                            <div className="w-full aspect-[16/6]">
-                                <img
-                                    src={src}
-                                    alt={`banner-${index + 1}`}
-                                    className="h-full w-full object-cover"
-                                />
-                            </div>
+                    {carouselImages.map((src, index) => (
+                        <div key={index} className="min-w-full h-full">
+                            <img
+                                src={src}
+                                alt={`hero-${index}`}
+                                className="w-full h-full object-cover"
+                            />
                         </div>
                     ))}
                 </div>
-                <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10">
-                    <div className="bg-white/20 text-white px-8 py-3 rounded-full backdrop-blur-md shadow-md">
-                        <p className="text-lg font-semibold tracking-wide">
-                            Every flowers blooms upon your arrival
-                        </p>
-                    </div>
+
+                {/* Text overlay */}
+                <div className="absolute bottom-12 right-10 text-right pointer-events-none">
+                    <p className="text-white font-light leading-tight" style={{ fontSize: "clamp(32px, 4vw, 56px)" }}>
+                        Every
+                        <br />
+                        flower
+                        <br />
+                        blooms
+                        <br />
+                        upon
+                        <br />
+                        your arrival
+                    </p>
                 </div>
 
-                {/* 左右按钮 */}
-                <button
-                    onClick={prevSlide}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/80 p-2 shadow hover:bg-white transition"
-                    aria-label="Previous slide"
-                >
-                    <ChevronLeft size={24} />
-                </button>
-
-                <button
-                    onClick={nextSlide}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/80 p-2 shadow hover:bg-white transition"
-                    aria-label="Next slide"
-                >
-                    <ChevronRight size={24} />
-                </button>
-
-                {/* 底部圆点 */}
-                <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
-                    {images.map((_, index) => (
+                {/* Dot indicators */}
+                <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2">
+                    {carouselImages.map((_, i) => (
                         <button
-                            key={index}
-                            onClick={() => setCurrent(index)}
-                            className={`h-3 w-3 rounded-full transition ${
-                                current === index ? "bg-white" : "bg-white/50"
-                            }`}
-                            aria-label={`Go to slide ${index + 1}`}
+                            key={i}
+                            onClick={() => setCurrent(i)}
+                            className={`h-2 w-2 rounded-full transition ${i === current ? "bg-white" : "bg-white/40"}`}
+                            aria-label={`Go to slide ${i + 1}`}
                         />
                     ))}
                 </div>
