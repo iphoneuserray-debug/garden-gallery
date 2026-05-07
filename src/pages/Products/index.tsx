@@ -1,52 +1,74 @@
-import ItemCard from "@/components/ItemCard";
-import { useParams } from "react-router-dom";
-import FilterBar from "./FilterBar";
-import { Crumb } from "@/components/Crumb";
+import { useEffect, useState } from 'react'
+import { useParams, Link } from 'react-router-dom'
+import { Crumb } from '@/components/Crumb'
+import FilterBar from './FilterBar'
+import { fetchProducts } from '@/lib/api'
+import type { Product } from '@/lib/api'
 
-type Product = {
-    id: string;
-    title: string;
-    handle: string;
-    price: string;
-    imgSrc: string;
-    badge: string;
-};
-
-const mockProducts: Product[] = [
-    { id: "1", title: "Rose", handle: "rose", price: "23.00 USD", imgSrc: "https://picsum.photos/400/500", badge: "Pet Friendly" },
-    { id: "2", title: "Tulip", handle: "tulip", price: "18.00 USD", imgSrc: "https://picsum.photos/400/501", badge: "Seasonal" },
-    { id: "3", title: "Lily", handle: "lily", price: "25.00 USD", imgSrc: "https://picsum.photos/400/502", badge: "Popular" },
-    { id: "4", title: "Sunflower", handle: "sunflower", price: "20.00 USD", imgSrc: "https://picsum.photos/400/503", badge: "Bright" },
-    { id: "5", title: "Orchid", handle: "orchid", price: "35.00 USD", imgSrc: "https://picsum.photos/400/504", badge: "Exotic" },
-    { id: "6", title: "Daisy", handle: "daisy", price: "15.00 USD", imgSrc: "https://picsum.photos/400/505", badge: "Classic" },
-    { id: "7", title: "Carnation", handle: "carnation", price: "17.00 USD", imgSrc: "https://picsum.photos/400/506", badge: "Fragrant" },
-    { id: "8", title: "Peony", handle: "peony", price: "30.00 USD", imgSrc: "https://picsum.photos/400/507", badge: "Luxury" },
-    { id: "9", title: "Hydrangea", handle: "hydrangea", price: "28.00 USD", imgSrc: "https://picsum.photos/400/508", badge: "Colorful" },
-    { id: "10", title: "Gardenia", handle: "gardenia", price: "22.00 USD", imgSrc: "https://picsum.photos/400/509", badge: "Aromatic" },
-    { id: "11", title: "Lavender", handle: "lavender", price: "19.00 USD", imgSrc: "https://picsum.photos/400/510", badge: "Calming" },
-    { id: "12", title: "Jasmine", handle: "jasmine", price: "21.00 USD", imgSrc: "https://picsum.photos/400/511", badge: "Fragrant" },
-];
+function ProductCard({ title, price, imgSrc, to }: { title: string; price: string; imgSrc: string; to: string }) {
+    return (
+        <Link to={to} className="group block">
+            <div className="overflow-hidden aspect-[4/5]">
+                <img
+                    src={imgSrc}
+                    alt={`${title}-Image`}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+            </div>
+            <div className="mt-2">
+                <p className="font-light text-base tracking-wide">{title}</p>
+                <p className="text-sm text-black/50 tracking-widest">{price}</p>
+            </div>
+        </Link>
+    )
+}
 
 export default function Products() {
-    const { text } = useParams();
+    const { text } = useParams()
+    const [allProducts, setAllProducts] = useState<Product[]>([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string | null>(null)
+
+    useEffect(() => {
+        fetchProducts()
+            .then(setAllProducts)
+            .catch(err => setError(err.message))
+            .finally(() => setLoading(false))
+    }, [])
+
+    const filtered = text
+        ? allProducts.filter(p =>
+            p.badge.toLowerCase() === text.toLowerCase() ||
+            p.title.toLowerCase().includes(text.toLowerCase()) ||
+            p.tags.some(t => t.toLowerCase() === text.toLowerCase())
+          )
+        : allProducts
+
     return (
         <>
-            <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight text-balance mb-5">
-                {text ?? "All"}
+            <h1
+                className="font-light leading-none mb-5"
+                style={{ fontSize: 'clamp(36px, 6vw, 90px)', letterSpacing: '-0.02em' }}
+            >
+                {text ?? 'All'}
             </h1>
             <Crumb />
-            <FilterBar></FilterBar>
-            <div className="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-4">
-                {mockProducts.map((item) => (
-                    <ItemCard
-                        key={item.id}
-                        title={item.title}
-                        price={item.price}
-                        imgSrc={item.imgSrc}
-                        badge={item.badge}
-                        to={`/product/${item.handle}`}
+            <FilterBar />
+
+            {loading && <p className="text-sm text-black/40 mt-4">Loading products…</p>}
+            {error && <p className="text-sm text-red-500 mt-4">{error}</p>}
+
+            <div className="grid grid-cols-2 lg:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-x-3 gap-y-8">
+                {filtered.map(p => (
+                    <ProductCard
+                        key={p.id}
+                        title={p.title}
+                        price={p.price}
+                        imgSrc={p.imgSrc}
+                        to={`/detail/${p.handle}`}
                     />
                 ))}
             </div>
-        </>)
+        </>
+    )
 }

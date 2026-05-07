@@ -46,8 +46,9 @@
 }
 
 :root {
+    --rpx: calc(min(100vw, 1600px) / 750);
     --radius: 0.625rem;
-    --background: #FFDBBB;
+    --background: #f5eee0;
     --foreground: oklch(0.145 0 0);
     --card: oklch(1 0 0);
     --card-foreground: oklch(0.145 0 0);
@@ -114,16 +115,101 @@
     --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* Marquee */
 @keyframes marquee {
     0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+    to { transform: translateX(-50%); }
+}
+.animate-marquee {
+    white-space: nowrap;
+    width: max-content;
+    animation: 30s linear infinite marquee;
+    display: flex;
 }
 
-.animate-marquee {
-    display: flex;
-    width: max-content;
-    animation: marquee 12s linear infinite;
-    white-space: nowrap;
+/* Scroll-snap: added to <html> on home page */
+html.home-snap {
+    scroll-snap-type: y mandatory;
+}
+
+/* Full-bleed breakout for home page */
+.home-wrap {
+    width: 100vw;
+    margin-top: -2rem;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+}
+@media (min-width: 1600px) {
+    .home-wrap {
+        width: 1600px;
+        margin-left: -112px;
+        margin-right: -112px;
+    }
+}
+
+/* Typography */
+.title-hero {
+    font-size: clamp(42px, calc(var(--rpx) * 68), 140px);
+    font-weight: 300;
+    line-height: 0.88;
+}
+
+.title-page {
+    font-size: clamp(60px, calc(var(--rpx) * 90), 180px);
+    letter-spacing: -0.02em;
+    font-weight: 300;
+    line-height: 1;
+}
+
+.title-section {
+    font-size: clamp(48px, calc(var(--rpx) * 90), 180px);
+    letter-spacing: -0.02em;
+    font-weight: 300;
+    line-height: 1;
+}
+
+.title-item {
+    font-size: clamp(20px, calc(var(--rpx) * 21), 44px);
+    letter-spacing: -0.01em;
+    font-weight: 300;
+}
+
+.text-nav {
+    font-size: clamp(18px, calc(var(--rpx) * 18.75), 32px);
+    font-weight: 300;
+}
+
+.text-slogan {
+    font-size: clamp(14px, calc(var(--rpx) * 13.5), 28px);
+    letter-spacing: 0.05em;
+}
+
+.text-card-label {
+    font-size: clamp(10px, calc(var(--rpx) * 6.75), 14px);
+}
+
+/* Filmstrip */
+.filmstrip-height::-webkit-scrollbar { display: none; }
+.filmstrip-card { width: 55vw; }
+.filmstrip-height { height: 38vh; }
+
+@media (min-width: 1024px) {
+    .filmstrip-card { width: 22vw; }
+    .filmstrip-height { height: 50vh; }
+}
+
+/* Hover-slide overlays — only on devices that support hover */
+@media (hover: hover) {
+    .filmstrip-info-top {
+        transform: translateY(-100%);
+    }
+    .filmstrip-info-bottom {
+        transform: translateY(100%);
+    }
+    .group:hover .filmstrip-info-top,
+    .group:hover .filmstrip-info-bottom {
+        transform: translateY(0);
+    }
 }
 
 @layer base {

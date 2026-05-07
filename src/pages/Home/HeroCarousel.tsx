@@ -1,96 +1,36 @@
-import { useEffect, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import Filmstrip from './Filmstrip'
 
-const images = [
-    "https://picsum.photos/seed/banner1/1200/420",
-    "https://picsum.photos/seed/banner2/1200/420",
-    "https://picsum.photos/seed/banner3/1200/420",
-    "https://picsum.photos/seed/banner4/1200/420",
-    "https://picsum.photos/seed/banner5/1200/420",
-    "https://picsum.photos/seed/banner6/1200/420",
-];
+interface FilmstripProduct {
+    handle: string
+    src: string
+    name: string
+    price: string
+}
 
-export default function HeroCarousel() {
-    const [current, setCurrent] = useState(0);
+interface HeroSectionProps {
+    products: FilmstripProduct[]
+}
 
-    const prevSlide = () => {
-        setCurrent((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-    };
-
-    const nextSlide = () => {
-        setCurrent((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-    };
-
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setCurrent((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-        }, 4000);
-
-        return () => clearInterval(timer);
-    }, []);
-
+export default function HeroSection({ products }: HeroSectionProps) {
     return (
-        <section className="w-full px-6">
-            <div className="relative mx-auto w-full overflow-hidden rounded-3xl shadow-lg">
-                {/* 图片滑动区域 */}
-                <div
-                    className="flex transition-transform duration-500 ease-in-out"
-                    style={{ transform: `translateX(-${current * 100}%)` }}
-                >
-                    {images.map((src, index) => (
-                        <div
-                            key={index}
-                            className="min-w-full"
-                        >
-                            <div className="w-full aspect-[16/6]">
-                                <img
-                                    src={src}
-                                    alt={`banner-${index + 1}`}
-                                    className="h-full w-full object-cover"
-                                />
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10">
-                    <div className="bg-white/20 text-white px-8 py-3 rounded-full backdrop-blur-md shadow-md">
-                        <p className="text-lg font-semibold tracking-wide">
-                            Every flowers blooms upon your arrival
-                        </p>
-                    </div>
-                </div>
-
-                {/* 左右按钮 */}
-                <button
-                    onClick={prevSlide}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/80 p-2 shadow hover:bg-white transition"
-                    aria-label="Previous slide"
-                >
-                    <ChevronLeft size={24} />
-                </button>
-
-                <button
-                    onClick={nextSlide}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/80 p-2 shadow hover:bg-white transition"
-                    aria-label="Next slide"
-                >
-                    <ChevronRight size={24} />
-                </button>
-
-                {/* 底部圆点 */}
-                <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
-                    {images.map((_, index) => (
-                        <button
-                            key={index}
-                            onClick={() => setCurrent(index)}
-                            className={`h-3 w-3 rounded-full transition ${
-                                current === index ? "bg-white" : "bg-white/50"
-                            }`}
-                            aria-label={`Go to slide ${index + 1}`}
-                        />
-                    ))}
+        <section
+            className="w-full flex flex-col justify-between"
+            style={{ height: '100vh', scrollSnapAlign: 'start' }}
+        >
+            <div className="pointer-events-none">
+                <div className="title-hero text-black">
+                    <div style={{ paddingLeft: '2%', paddingTop: 'clamp(60px, 8%, 0.3em)' }}>GARDEN</div>
+                    <div style={{ paddingLeft: '18%' }}>GALLERY</div>
                 </div>
             </div>
+
+            {products.length > 0 && <Filmstrip products={products} />}
+
+            <div className="flex justify-end px-6 pb-6">
+                <p className="text-slogan text-black font-light text-right">
+                    Every flower blooms upon your arrival
+                </p>
+            </div>
         </section>
-    );
+    )
 }

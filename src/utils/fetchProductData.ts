@@ -17,5 +17,5 @@ export function findProductByName() { }
 export function findProductById() { }
 
 // Find certain amount of flowers
-export function findProduct(num: number, tags: string[]) { }
+export function findProduct(_num: number, _tags: string[]) { }
 

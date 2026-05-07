@@ -1,100 +1,67 @@
-import { Link, useLocation } from "react-router-dom";
-import { User } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import { NavBar } from "./NavBar/Navbar";
-import { LongNavBar } from "./NavBar/LongNavBar";
-import { Cart } from "./Cart";
-import NavSearch from "./NavBar/NavSearch";
-import Caution from "./Caution";
+import { useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import { ShoppingCart, Menu } from 'lucide-react'
+import NavDrawer from './NavDrawer'
+import CartDrawer from './CartDrawer'
+import { useCart } from '@/context/CartContext'
+import Caution from './Caution'
 
 export default function Header() {
-    const { pathname } = useLocation();
-
-    const headerRef = useRef<HTMLDivElement | null>(null);
-    const [showFloatingIcons, setShowFloatingIcons] = useState(false);
-
-    useEffect(() => {
-        const target = headerRef.current;
-        if (!target) return;
-
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                setShowFloatingIcons(!entry.isIntersecting);
-            },
-            {
-                root: null,
-                threshold: 0,
-            }
-        );
-
-        observer.observe(target);
-
-        return () => observer.disconnect();
-    }, []);
+    const { pathname } = useLocation()
+    const { cartCount } = useCart()
+    const [cartOpen, setCartOpen] = useState(false)
+    const [navOpen, setNavOpen] = useState(false)
+    const isHome = pathname === '/'
 
     return (
         <>
-            {pathname === "/" && (
-                <Caution>Pick Up Only at Melbourne Center Every Tuseday</Caution>
+            {isHome && <Caution>Pick Up Only at Melbourne Center Every Tuesday</Caution>}
+
+            {/* Logo — only on non-home pages */}
+            {!isHome && (
+                <Link
+                    to="/"
+                    className="fixed hover:opacity-70 transition-opacity z-[40]"
+                    style={{ top: '8px', left: '16px' }}
+                >
+                    <img src="/logo.jpg" alt="Garden Gallery" className="h-16 w-16 object-cover rounded-full" />
+                </Link>
             )}
 
-            {/* 原来的 Header */}
-            <div ref={headerRef}>
-                <div className="w-full flex items-center gap-3 px-4 py-3 bg-[#CCBEB1] mt-8">
-                    {/* Narrow NavBar */}
-                    <div className="md:hidden">
-                        <NavBar />
-                    </div>
-
-                    {/* Logo */}
-                    <Link to="/" className="flex-shrink-0">
-                        <img
-                            src="logo.jpg"
-                            alt="logo"
-                            className="w-14 h-14 rounded-full object-cover border shadow"
-                        />
-                    </Link>
-
-                    {/* Wide: nav links */}
-                    <div className="hidden md:flex">
-                        <LongNavBar />
-                    </div>
-
-                    {/* Spacer */}
-                    <div className="flex-1" />
-
-                    {/* Wide: search */}
-                    <div className="hidden md:block">
-                        <NavSearch />
-                    </div>
-
+            {/* Right-side icons */}
+            <div
+                className="fixed right-0 flex items-center px-4 py-2 z-[100] pointer-events-none"
+                style={{ top: isHome ? '36px' : '8px' }}
+            >
+                <div className="flex items-center gap-1 pointer-events-auto">
                     {/* Cart */}
-                    <Cart />
-
-                    {/* User icon */}
-                    <Link
-                        to="/login"
-                        className="hidden md:flex items-center justify-center w-10 h-10 rounded-full border shadow-sm hover:bg-gray-100 transition"
+                    <button
+                        onClick={() => setCartOpen(true)}
+                        className="relative flex items-center justify-center w-10 h-10 hover:opacity-50 transition-opacity"
                     >
-                        <User size={20} />
-                    </Link>
+                        <ShoppingCart className="h-8 w-8" strokeWidth={2} strokeLinecap="square" strokeLinejoin="miter" />
+                        {cartCount > 0 && (
+                            <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 flex items-center justify-center bg-black text-white text-xs font-bold shadow">
+                                {cartCount}
+                            </span>
+                        )}
+                    </button>
+
+                    {/* Hamburger */}
+                    <button
+                        onClick={() => setNavOpen(true)}
+                        className="flex items-center justify-center w-10 h-10 hover:opacity-50 transition-opacity"
+                    >
+                        <Menu className="h-8 w-8 text-gray-900" strokeWidth={2} strokeLinecap="square" strokeLinejoin="miter" />
+                    </button>
                 </div>
             </div>
 
-            {/* 顶部导航被滚走后显示的小浮动图标 */}
-            {showFloatingIcons && (
-                <div className="fixed left-4 top-[52px] z-[60] flex items-center gap-2 rounded-full bg-white/85 px-3 py-2 shadow-lg backdrop-blur-md border border-white/60">
-                    {/* 小导航按钮 */}
-                    <div className="flex items-center justify-center">
-                        <NavBar />
-                    </div>
+            {/* Spacer so content doesn't start behind header */}
+            <div style={{ height: isHome ? '36px' : '52px' }} />
 
-                    {/* 小购物车按钮：直接复用 Cart 组件 */}
-                    <div className="flex items-center justify-center">
-                        <Cart />
-                    </div>
-                </div>
-            )}
+            <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
+            <NavDrawer open={navOpen} onClose={() => setNavOpen(false)} />
         </>
-    );
+    )
 }
