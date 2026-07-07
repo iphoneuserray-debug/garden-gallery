@@ -10,7 +10,6 @@
 .header {
     width: 100%;
     background-color: #fff;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .desktopNav {
@@ -63,9 +62,9 @@
 
 .navLink {
     font-size: 0.875rem;
-    font-weight: 700;
+    font-weight: normal;
     text-transform: uppercase;
-    letter-spacing: 0.025em;
+    letter-spacing: 0.1em;
     color: #111827;
     transition: color 150ms;
 }
@@ -82,9 +81,9 @@
     align-items: center;
     gap: 0.25rem;
     font-size: 0.875rem;
-    font-weight: 700;
+    font-weight: normal;
     text-transform: uppercase;
-    letter-spacing: 0.025em;
+    letter-spacing: 0.1em;
     color: #111827;
     padding: 1.5rem 0;
     transition: color 150ms;

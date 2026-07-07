@@ -65,8 +65,6 @@ export default function Header() {
                 className={styles.stack}
                 style={{ transform: stackHidden ? 'translateY(-100%)' : 'translateY(0)' }}
             >
-                {isHome && <Caution>Pick Up Only at Melbourne Center Every Tuesday</Caution>}
-
                 <header className={styles.header}>
                     {/* Desktop nav */}
                     <div className={styles.desktopNav}>
@@ -126,6 +124,8 @@ export default function Header() {
                         <CartButton />
                     </div>
                 </header>
+
+                {isHome && <Caution>Pick Up Only at Melbourne Center Every Tuesday</Caution>}
             </div>
 
             {/* Spacer so page content doesn't start behind the fixed header (+ caution bar on home) */}

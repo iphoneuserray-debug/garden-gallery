@@ -6,6 +6,7 @@ import { fetchProductByHandle } from '@/lib/api'
 import type { Product } from '@/lib/api'
 import { useCart } from '@/context/CartContext'
 import { Crumb } from '@/components/Crumb'
+import { Skeleton } from '@/components/ui/skeleton'
 import styles from './Detail.module.css'
 
 function ImageGallery({ images }: { images: { src: string; alt: string }[] }) {
@@ -32,6 +33,65 @@ function ImageGallery({ images }: { images: { src: string; alt: string }[] }) {
                     alt={images[selected]?.alt}
                     className={styles.mainImage}
                 />
+            </div>
+        </div>
+    )
+}
+
+function GallerySkeleton() {
+    return (
+        <div className={styles.gallery}>
+            <div className={styles.thumbStrip}>
+                {[0, 1].map(i => <Skeleton key={i} className={styles.skeletonThumb} />)}
+            </div>
+            <div className={styles.mainImageWrap}>
+                <Skeleton className={styles.skeletonMainImage} />
+            </div>
+        </div>
+    )
+}
+
+function InfoSkeleton() {
+    return (
+        <div className={styles.info}>
+            <Skeleton className={styles.skeletonTitle} />
+            <Skeleton className={styles.skeletonPrice} />
+            <Skeleton className={styles.skeletonBadge} />
+            <div className={styles.divider} />
+            <Skeleton className={styles.skeletonDescLine} />
+            <Skeleton className={styles.skeletonDescLineShort} />
+            <div className={styles.divider} />
+            <Skeleton className={styles.skeletonQty} />
+            <div className={styles.skeletonActionsRow}>
+                <Skeleton className={styles.skeletonAddToCart} />
+                <Skeleton className={styles.skeletonShare} />
+            </div>
+        </div>
+    )
+}
+
+function DetailSkeleton() {
+    return (
+        <div>
+            {/* Mobile */}
+            <div className={styles.mobileWrap}>
+                <Skeleton className={styles.skeletonCrumb} />
+                <div className={styles.mobileBody}>
+                    <div className={styles.mobileGalleryWrap}>
+                        <GallerySkeleton />
+                    </div>
+                    <InfoSkeleton />
+                </div>
+            </div>
+            {/* Desktop */}
+            <div className={styles.desktopWrap}>
+                <div className={styles.desktopGalleryWrap}>
+                    <GallerySkeleton />
+                </div>
+                <div className={styles.desktopInfoWrap}>
+                    <Skeleton className={styles.skeletonCrumb} />
+                    <InfoSkeleton />
+                </div>
             </div>
         </div>
     )
@@ -68,6 +128,8 @@ export default function Detail() {
     const { addItem } = useCart()
 
     useEffect(() => {
+        setLoading(true)
+        setError(null)
         if (!name) { setLoading(false); return }
         fetchProductByHandle(name)
             .then(p => setProduct(p ?? null))
@@ -75,7 +137,7 @@ export default function Detail() {
             .finally(() => setLoading(false))
     }, [name])
 
-    if (loading) return <p className={styles.loadingText}>Loading…</p>
+    if (loading) return <DetailSkeleton />
     if (error) return <p className={styles.errorText}>Error: {error}</p>
     if (!product) return <NotFound />
 

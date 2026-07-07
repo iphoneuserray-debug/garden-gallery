@@ -1,6 +1,6 @@
 .wrapper {
     width: 100%;
-    background-color: #EADBC8;
+    background-color: rgba(255, 255, 255, 0.4);
     color: #3E3E3E;
     border-bottom: 1px solid rgba(255, 255, 255, 0.4);
     backdrop-filter: blur(4px);
@@ -8,8 +8,8 @@
 
 .text {
     text-align: center;
-    font-size: 0.875rem;
-    font-weight: 600;
+    font-size: 0.9rem;
+    font-weight: normal;
     letter-spacing: 0.025em;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;

@@ -127,10 +127,75 @@
     background-color: rgba(0, 0, 0, 0.8);
 }
 
-.loadingText {
-    font-size: 0.875rem;
-    color: rgba(0, 0, 0, 0.4);
-    margin-top: 2rem;
+.skeletonCrumb {
+    height: 1rem;
+    width: 12rem;
+    margin: 0.75rem 0;
+}
+
+.skeletonThumb {
+    flex-shrink: 0;
+    width: 4rem;
+    height: 4rem;
+}
+@media (min-width: 1024px) {
+    .skeletonThumb {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+    }
+}
+
+.skeletonMainImage {
+    width: 100%;
+    height: 100%;
+}
+
+.skeletonTitle {
+    height: 3rem;
+    width: 80%;
+}
+
+.skeletonPrice {
+    height: 1.5rem;
+    width: 30%;
+}
+
+.skeletonBadge {
+    height: 1.5rem;
+    width: 4.5rem;
+}
+
+.skeletonDescLine {
+    height: 0.875rem;
+    width: 100%;
+}
+
+.skeletonDescLineShort {
+    height: 0.875rem;
+    width: 70%;
+}
+
+.skeletonQty {
+    height: 2.25rem;
+    width: 8rem;
+}
+
+.skeletonActionsRow {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.skeletonAddToCart {
+    flex: 1 1 0%;
+    height: 3rem;
+}
+
+.skeletonShare {
+    width: 3rem;
+    height: 3rem;
+    flex-shrink: 0;
 }
 
 .errorText {
