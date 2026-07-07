@@ -1,0 +1,29 @@
+.section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.footerRow {
+    display: flex;
+    justify-content: flex-end;
+    margin: 1.25rem;
+}
+
+.shopAllLink {
+    align-self: flex-start;
+}
+
+.linkLabel {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: opacity 200ms;
+}
+.shopAllLink:hover .linkLabel {
+    opacity: 0.6;
+}

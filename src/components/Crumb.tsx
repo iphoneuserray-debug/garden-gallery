@@ -8,6 +8,7 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
+import styles from './Crumb.module.css'
 
 interface CrumbItem { label: string; href?: string }
 interface CrumbProps { items?: CrumbItem[] }
@@ -24,7 +25,7 @@ export function Crumb({ items }: CrumbProps = {}) {
         }));
 
     return (
-        <Breadcrumb className="mt-3 mb-3">
+        <Breadcrumb className={styles.crumb}>
             <BreadcrumbList>
                 <BreadcrumbItem>
                     <BreadcrumbLink asChild>

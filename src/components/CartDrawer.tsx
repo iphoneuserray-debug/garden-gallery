@@ -2,6 +2,7 @@ import { Minus, Plus, Trash2, X } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { Drawer } from './NavDrawer'
 import { useCart } from '@/context/CartContext'
+import styles from './CartDrawer.module.css'
 
 interface CartDrawerProps {
     open: boolean
@@ -20,18 +21,15 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
 
     return (
         <Drawer open={open} onClose={onClose}>
-            <div className="bg-[#F5EEE0] flex flex-col h-full">
+            <div className={styles.wrapper}>
                 {/* Header */}
-                <div className="flex items-center justify-between border-b border-black/10 px-8 py-6">
-                    <h2
-                        className="font-black uppercase tracking-widest text-black"
-                        style={{ fontSize: 'clamp(20px, 2.5vw, 26px)' }}
-                    >
+                <div className={styles.header}>
+                    <h2 className={styles.title}>
                         Cart
                     </h2>
                     <button
                         onClick={onClose}
-                        className="text-black/40 hover:text-black transition-colors"
+                        className={styles.closeButton}
                         aria-label="Close cart"
                     >
                         <X size={20} strokeWidth={1.5} />
@@ -39,46 +37,46 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
                 </div>
 
                 {/* Items */}
-                <div className="flex-1 overflow-y-auto px-8 py-6">
+                <div className={styles.itemsWrap}>
                     {empty ? (
-                        <p className="text-black/30 uppercase tracking-widest text-xs font-bold">Your cart is empty</p>
+                        <p className={styles.emptyText}>Your cart is empty</p>
                     ) : (
-                        <div className="flex flex-col gap-6">
+                        <div className={styles.itemsList}>
                             {cart.items.map(({ item, qty }) => (
-                                <div key={item.id} className="flex gap-4 border-b border-black/10 pb-6">
-                                    <img src={item.imgSrc} alt={item.title} className="h-24 w-24 object-cover bg-black/5" />
-                                    <div className="min-w-0 flex-1">
-                                        <div className="flex items-start justify-between gap-3">
+                                <div key={item.id} className={styles.itemRow}>
+                                    <img src={item.imgSrc} alt={item.title} className={styles.itemImg} />
+                                    <div className={styles.itemInfo}>
+                                        <div className={styles.itemTopRow}>
                                             <div>
-                                                <p className="text-sm font-semibold uppercase tracking-wider">{item.title}</p>
-                                                <p className="mt-1 text-xs uppercase tracking-widest text-black/40">{item.badge ?? 'Fresh Cut'}</p>
+                                                <p className={styles.itemTitle}>{item.title}</p>
+                                                <p className={styles.itemBadge}>{item.badge ?? 'Fresh Cut'}</p>
                                             </div>
                                             <button
                                                 onClick={() => removeItem(item.id)}
-                                                className="text-black/40 hover:text-black transition-colors"
+                                                className={styles.removeButton}
                                                 aria-label={`Remove ${item.title} from cart`}
                                             >
                                                 <Trash2 size={16} />
                                             </button>
                                         </div>
-                                        <p className="mt-3 text-sm">${item.price.toFixed(2)}</p>
-                                        <div className="mt-4 flex items-center justify-between gap-4">
-                                            <div className="flex items-center border border-black/20">
+                                        <p className={styles.itemPrice}>${item.price.toFixed(2)}</p>
+                                        <div className={styles.qtyRow}>
+                                            <div className={styles.qtyControls}>
                                                 <button
                                                     onClick={() => updateItemQty(item.id, qty - 1)}
-                                                    className="flex h-8 w-8 items-center justify-center hover:bg-black/5 transition-colors"
+                                                    className={styles.qtyButton}
                                                 >
                                                     <Minus size={14} />
                                                 </button>
-                                                <span className="flex h-8 min-w-8 items-center justify-center border-x border-black/20 px-2 text-sm">{qty}</span>
+                                                <span className={styles.qtyValue}>{qty}</span>
                                                 <button
                                                     onClick={() => updateItemQty(item.id, qty + 1)}
-                                                    className="flex h-8 w-8 items-center justify-center hover:bg-black/5 transition-colors"
+                                                    className={styles.qtyButton}
                                                 >
                                                     <Plus size={14} />
                                                 </button>
                                             </div>
-                                            <p className="text-sm font-medium">${(item.price * qty).toFixed(2)}</p>
+                                            <p className={styles.lineTotal}>${(item.price * qty).toFixed(2)}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -88,13 +86,13 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
                 </div>
 
                 {/* Footer */}
-                <div className="px-8 pb-8 pt-4 border-t border-black/10">
-                    <div className="mb-4 flex items-center justify-between text-sm uppercase tracking-widest">
-                        <span className="text-black/50">Subtotal</span>
-                        <span className="font-semibold text-black">${subtotal.toFixed(2)}</span>
+                <div className={styles.footer}>
+                    <div className={styles.subtotalRow}>
+                        <span className={styles.subtotalLabel}>Subtotal</span>
+                        <span className={styles.subtotalValue}>${subtotal.toFixed(2)}</span>
                     </div>
                     <button
-                        className="w-full bg-black text-white uppercase tracking-widest font-bold py-4 text-sm hover:bg-white hover:text-black border border-black transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-40"
+                        className={styles.checkoutButton}
                         disabled={empty}
                         onClick={handleCheckout}
                     >

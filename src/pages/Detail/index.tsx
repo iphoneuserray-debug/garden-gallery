@@ -6,34 +6,31 @@ import { fetchProductByHandle } from '@/lib/api'
 import type { Product } from '@/lib/api'
 import { useCart } from '@/context/CartContext'
 import { Crumb } from '@/components/Crumb'
+import styles from './Detail.module.css'
 
 function ImageGallery({ images }: { images: { src: string; alt: string }[] }) {
     const [selected, setSelected] = useState(0)
 
     return (
-        <div className="flex flex-col-reverse lg:flex-row-reverse gap-2 h-full">
+        <div className={styles.gallery}>
             {/* Thumbnail strip */}
-            <div className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-x-visible lg:overflow-y-auto lg:w-20 lg:shrink-0">
+            <div className={styles.thumbStrip}>
                 {images.map((img, i) => (
-                    <button key={img.src} onClick={() => setSelected(i)} className="shrink-0 block">
+                    <button key={img.src} onClick={() => setSelected(i)} className={styles.thumbButton}>
                         <img
                             src={img.src}
                             alt={img.alt}
-                            className={`object-cover transition-opacity w-16 h-16 lg:w-full lg:aspect-square ${
-                                i === selected
-                                    ? 'ring-1 ring-black ring-offset-1 opacity-100'
-                                    : 'opacity-40 hover:opacity-80'
-                            }`}
+                            className={`${styles.thumbImage} ${i === selected ? styles.thumbImageActive : ''}`}
                         />
                     </button>
                 ))}
             </div>
             {/* Main image */}
-            <div className="flex-1 overflow-hidden aspect-[4/5] lg:aspect-auto">
+            <div className={styles.mainImageWrap}>
                 <img
                     src={images[selected]?.src}
                     alt={images[selected]?.alt}
-                    className="w-full h-full object-cover cursor-zoom-in"
+                    className={styles.mainImage}
                 />
             </div>
         </div>
@@ -42,22 +39,19 @@ function ImageGallery({ images }: { images: { src: string; alt: string }[] }) {
 
 function NotFound() {
     return (
-        <div className="flex min-h-[60vh] flex-col items-start justify-center gap-6">
-            <div className="space-y-3">
-                <p className="text-xs uppercase tracking-[0.3em] text-black/40">Product Not Found</p>
-                <h1
-                    className="font-light leading-none"
-                    style={{ fontSize: 'clamp(40px, 7vw, 96px)', letterSpacing: '-0.03em' }}
-                >
+        <div className={styles.notFound}>
+            <div className={styles.notFoundText}>
+                <p className={styles.notFoundLabel}>Product Not Found</p>
+                <h1 className={styles.notFoundHeading}>
                     This arrangement is unavailable.
                 </h1>
-                <p className="max-w-xl text-sm leading-7 text-black/60">
+                <p className={styles.notFoundBody}>
                     The product you requested could not be found in the current catalogue. You can continue browsing our available flowers instead.
                 </p>
             </div>
             <Link
                 to="/products"
-                className="inline-flex h-12 items-center justify-center bg-black px-6 text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-black/80"
+                className={styles.notFoundLink}
             >
                 Browse Products
             </Link>
@@ -81,8 +75,8 @@ export default function Detail() {
             .finally(() => setLoading(false))
     }, [name])
 
-    if (loading) return <p className="text-sm text-black/40 mt-8">Loading…</p>
-    if (error) return <p className="text-sm text-red-500 mt-8">Error: {error}</p>
+    if (loading) return <p className={styles.loadingText}>Loading…</p>
+    if (error) return <p className={styles.errorText}>Error: {error}</p>
     if (!product) return <NotFound />
 
     const priceNum = product.priceNum ?? (Number(product.price.replace(/[^\d.]/g, '')) || 0)
@@ -98,30 +92,27 @@ export default function Detail() {
     }
 
     const productInfo = (
-        <div className="flex flex-col gap-5">
-            <h1
-                className="font-light leading-none"
-                style={{ fontSize: 'clamp(36px, 5vw, 72px)', letterSpacing: '-0.02em' }}
-            >
+        <div className={styles.info}>
+            <h1 className={styles.title}>
                 {product.title}
             </h1>
-            <p className="text-2xl font-light tracking-wide">${priceNum.toFixed(2)}</p>
+            <p className={styles.price}>${priceNum.toFixed(2)}</p>
             {product.badge && (
-                <span className="self-start text-xs tracking-widest uppercase border border-black/20 px-2 py-1">
+                <span className={styles.badge}>
                     {product.badge}
                 </span>
             )}
-            <div className="w-full h-px bg-black/10" />
-            <p className="font-light leading-relaxed text-black/60 text-sm">
+            <div className={styles.divider} />
+            <p className={styles.description}>
                 {product.description ?? 'A seasonal arrangement designed to feel generous, polished, and easy to gift.'}
             </p>
-            <div className="w-full h-px bg-black/10" />
-            <div className="flex items-center gap-4">
-                <span className="text-xs tracking-widest uppercase text-black/40">Quantity</span>
-                <div className="flex items-center border border-black/20">
+            <div className={styles.divider} />
+            <div className={styles.qtyRow}>
+                <span className={styles.qtyLabel}>Quantity</span>
+                <div className={styles.qtyControls}>
                     <button
                         onClick={() => setQty(q => Math.max(1, q - 1))}
-                        className="w-9 h-9 flex items-center justify-center hover:bg-black/5 transition-colors"
+                        className={styles.qtyButton}
                     >
                         <Minus size={14} />
                     </button>
@@ -132,26 +123,26 @@ export default function Detail() {
                             if (e.target.value === '') { setQty(1); return }
                             if (/^\d+$/.test(e.target.value)) setQty(Math.max(1, Number(e.target.value)))
                         }}
-                        className="w-10 h-9 text-center text-sm bg-transparent border-x border-black/20 focus:outline-none"
+                        className={styles.qtyInput}
                     />
                     <button
                         onClick={() => setQty(q => q + 1)}
-                        className="w-9 h-9 flex items-center justify-center hover:bg-black/5 transition-colors"
+                        className={styles.qtyButton}
                     >
                         <Plus size={14} />
                     </button>
                 </div>
             </div>
-            <div className="flex items-center gap-3 mt-2">
+            <div className={styles.actionsRow}>
                 <button
                     onClick={handleAddToCart}
-                    className="flex-1 h-12 bg-black text-white text-xs font-bold tracking-widest uppercase hover:bg-black/80 transition-colors"
+                    className={styles.addToCartButton}
                 >
                     Add to Cart
                 </button>
                 <button
                     onClick={handleShare}
-                    className="w-12 h-12 border border-black/20 flex items-center justify-center hover:bg-black/5 transition-colors"
+                    className={styles.shareButton}
                 >
                     <Share2 size={18} />
                 </button>
@@ -167,21 +158,21 @@ export default function Detail() {
     return (
         <div>
             {/* Mobile */}
-            <div className="lg:hidden">
+            <div className={styles.mobileWrap}>
                 <Crumb items={crumbItems} />
-                <div className="flex flex-col gap-8 mt-4">
-                    <div className="w-full">
+                <div className={styles.mobileBody}>
+                    <div className={styles.mobileGalleryWrap}>
                         <ImageGallery images={product.images} />
                     </div>
                     {productInfo}
                 </div>
             </div>
             {/* Desktop */}
-            <div className="hidden lg:flex items-start -mx-8">
-                <div className="w-[55%] shrink-0 sticky top-0 h-screen overflow-hidden">
+            <div className={styles.desktopWrap}>
+                <div className={styles.desktopGalleryWrap}>
                     <ImageGallery images={product.images} />
                 </div>
-                <div className="flex-1 px-12 pt-2 flex flex-col gap-5">
+                <div className={styles.desktopInfoWrap}>
                     <Crumb items={crumbItems} />
                     {productInfo}
                 </div>

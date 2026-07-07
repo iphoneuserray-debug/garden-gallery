@@ -6,30 +6,31 @@ import FilterPanel, { type Filters } from './FilterPanel'
 import { Skeleton } from '@/components/ui/skeleton'
 import { fetchProducts } from '@/lib/api'
 import type { Product } from '@/lib/api'
+import styles from './Products.module.css'
 
 function ProductCardSkeleton() {
     return (
         <div>
-            <Skeleton className="aspect-[4/5] w-full" />
-            <Skeleton className="mt-2 h-4 w-3/4" />
-            <Skeleton className="mt-2 h-3 w-1/3" />
+            <Skeleton className={styles.skeletonImage} />
+            <Skeleton className={styles.skeletonTitle} />
+            <Skeleton className={styles.skeletonPrice} />
         </div>
     )
 }
 
 function ProductCard({ title, price, imgSrc, to }: { title: string; price: string; imgSrc: string; to: string }) {
     return (
-        <Link to={to} className="group block">
-            <div className="overflow-hidden aspect-[4/5]">
+        <Link to={to} className={styles.card}>
+            <div className={styles.cardImageWrap}>
                 <img
                     src={imgSrc}
                     alt={`${title}-Image`}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className={styles.cardImage}
                 />
             </div>
-            <div className="mt-2">
-                <p className="font-light text-base tracking-wide">{title}</p>
-                <p className="text-sm text-black/50 tracking-widest">{price}</p>
+            <div className={styles.cardInfo}>
+                <p className={styles.cardTitle}>{title}</p>
+                <p className={styles.cardPrice}>{price}</p>
             </div>
         </Link>
     )
@@ -122,10 +123,10 @@ export default function Products() {
             <Crumb items={[{ label: 'Products' }]} />
 
             {/* Toggle + active filter pills row */}
-            <div className="flex items-center gap-2 flex-wrap mb-4">
+            <div className={styles.toolbarRow}>
                 <button
                     onClick={() => setOpen(o => !o)}
-                    className="flex items-center gap-1.5 text-xs uppercase tracking-widest text-black/50 hover:text-black transition-colors shrink-0"
+                    className={styles.toggleButton}
                 >
                     {open
                         ? <><ChevronLeft size={14} /><span>Filters</span></>
@@ -134,34 +135,34 @@ export default function Products() {
                 </button>
 
                 {queryParam && (
-                    <span className="flex items-center gap-1 text-xs uppercase tracking-widest border border-black/30 px-2 py-0.5">
+                    <span className={styles.pill}>
                         "{queryParam}"
-                        <button onClick={clearQuery} className="hover:text-black/50 transition-colors"><X size={10} /></button>
+                        <button onClick={clearQuery} className={styles.pillCloseButton}><X size={10} /></button>
                     </span>
                 )}
                 {!open && filters.tags.map(tag => (
-                    <span key={tag} className="flex items-center gap-1 text-xs uppercase tracking-widest border border-black/30 px-2 py-0.5">
+                    <span key={tag} className={styles.pill}>
                         {tag}
-                        <button onClick={() => removeTag(tag)} className="hover:text-black/50 transition-colors"><X size={10} /></button>
+                        <button onClick={() => removeTag(tag)} className={styles.pillCloseButton}><X size={10} /></button>
                     </span>
                 ))}
                 {!open && filters.inStock !== 'all' && (
-                    <span className="flex items-center gap-1 text-xs uppercase tracking-widest border border-black/30 px-2 py-0.5">
+                    <span className={styles.pill}>
                         {filters.inStock === 'in' ? 'In Stock' : 'Out of Stock'}
-                        <button onClick={clearInStock} className="hover:text-black/50 transition-colors"><X size={10} /></button>
+                        <button onClick={clearInStock} className={styles.pillCloseButton}><X size={10} /></button>
                     </span>
                 )}
                 {!open && hasActiveFilters && (
                     <button
                         onClick={() => setFilters({ priceRange: [0, maxPrice], inStock: 'all', tags: [] })}
-                        className="text-xs uppercase tracking-widest text-black/40 hover:text-black transition-colors ml-1"
+                        className={styles.clearAllButton}
                     >
                         Clear all
                     </button>
                 )}
             </div>
 
-            <div className="flex flex-col lg:flex-row gap-8 items-start">
+            <div className={styles.layoutRow}>
                 {open && (
                     <FilterPanel
                         maxPrice={maxPrice}
@@ -171,12 +172,12 @@ export default function Products() {
                     />
                 )}
 
-                <div className="flex-1 min-w-0">
-                    {error && <p className="text-sm text-red-500">{error}</p>}
+                <div className={styles.resultsCol}>
+                    {error && <p className={styles.errorText}>{error}</p>}
                     {!loading && !error && filtered.length === 0 && (
-                        <p className="text-sm text-black/40 uppercase tracking-widest">No products match your filters.</p>
+                        <p className={styles.emptyText}>No products match your filters.</p>
                     )}
-                    <div className="grid grid-cols-2 lg:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-x-3 gap-y-8">
+                    <div className={styles.grid}>
                         {loading && Array.from({ length: 8 }).map((_, i) => <ProductCardSkeleton key={i} />)}
                         {!loading && filtered.map(p => (
                             <ProductCard

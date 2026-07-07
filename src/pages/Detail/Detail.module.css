@@ -1,0 +1,309 @@
+.gallery {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.5rem;
+    height: 100%;
+}
+@media (min-width: 1024px) {
+    .gallery {
+        flex-direction: row-reverse;
+    }
+}
+
+.thumbStrip {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+}
+@media (min-width: 1024px) {
+    .thumbStrip {
+        flex-direction: column;
+        overflow-x: visible;
+        overflow-y: auto;
+        width: 5rem;
+        flex-shrink: 0;
+    }
+}
+
+.thumbButton {
+    flex-shrink: 0;
+    display: block;
+}
+
+.thumbImage {
+    object-fit: cover;
+    transition: opacity 150ms;
+    width: 4rem;
+    height: 4rem;
+    opacity: 0.4;
+}
+.thumbImage:hover {
+    opacity: 0.8;
+}
+@media (min-width: 1024px) {
+    .thumbImage {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+    }
+}
+
+.thumbImageActive {
+    opacity: 1;
+    box-shadow: 0 0 0 1px #000, 0 0 0 3px #fff;
+}
+.thumbImageActive:hover {
+    opacity: 1;
+}
+
+.mainImageWrap {
+    flex: 1 1 0%;
+    overflow: hidden;
+    aspect-ratio: 4 / 5;
+}
+@media (min-width: 1024px) {
+    .mainImageWrap {
+        aspect-ratio: auto;
+    }
+}
+
+.mainImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: zoom-in;
+}
+
+.notFound {
+    display: flex;
+    min-height: 60vh;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.notFoundText {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.notFoundLabel {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: rgba(0, 0, 0, 0.4);
+}
+
+.notFoundHeading {
+    font-weight: 300;
+    line-height: 1;
+    font-size: clamp(40px, 7vw, 96px);
+    letter-spacing: -0.03em;
+}
+
+.notFoundBody {
+    max-width: 36rem;
+    font-size: 0.875rem;
+    line-height: 1.75rem;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.notFoundLink {
+    display: inline-flex;
+    height: 3rem;
+    align-items: center;
+    justify-content: center;
+    background-color: #000;
+    padding: 0 1.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #fff;
+    transition: background-color 150ms;
+}
+.notFoundLink:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.loadingText {
+    font-size: 0.875rem;
+    color: rgba(0, 0, 0, 0.4);
+    margin-top: 2rem;
+}
+
+.errorText {
+    font-size: 0.875rem;
+    color: #ef4444;
+    margin-top: 2rem;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.title {
+    font-weight: 300;
+    line-height: 1;
+    font-size: clamp(36px, 5vw, 72px);
+    letter-spacing: -0.02em;
+}
+
+.price {
+    font-size: 1.5rem;
+    font-weight: 300;
+    letter-spacing: 0.025em;
+}
+
+.badge {
+    align-self: flex-start;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 0.25rem 0.5rem;
+}
+
+.divider {
+    width: 100%;
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.description {
+    font-weight: 300;
+    line-height: 1.75rem;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 0.875rem;
+}
+
+.qtyRow {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.qtyLabel {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.4);
+}
+
+.qtyControls {
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.qtyButton {
+    width: 2.25rem;
+    height: 2.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 150ms;
+}
+.qtyButton:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.qtyInput {
+    width: 2.5rem;
+    height: 2.25rem;
+    text-align: center;
+    font-size: 0.875rem;
+    background-color: transparent;
+    border-left: 1px solid rgba(0, 0, 0, 0.2);
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
+}
+.qtyInput:focus {
+    outline: none;
+}
+
+.actionsRow {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.addToCartButton {
+    flex: 1 1 0%;
+    height: 3rem;
+    background-color: #000;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: background-color 150ms;
+}
+.addToCartButton:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.shareButton {
+    width: 3rem;
+    height: 3rem;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 150ms;
+}
+.shareButton:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.mobileWrap {
+    display: block;
+}
+@media (min-width: 1024px) {
+    .mobileWrap {
+        display: none;
+    }
+}
+
+.mobileBody {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.mobileGalleryWrap {
+    width: 100%;
+}
+
+.desktopWrap {
+    display: none;
+}
+@media (min-width: 1024px) {
+    .desktopWrap {
+        display: flex;
+        align-items: flex-start;
+        margin-left: -2rem;
+        margin-right: -2rem;
+    }
+}
+
+.desktopGalleryWrap {
+    width: 55%;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.desktopInfoWrap {
+    flex: 1 1 0%;
+    padding: 0.5rem 3rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}

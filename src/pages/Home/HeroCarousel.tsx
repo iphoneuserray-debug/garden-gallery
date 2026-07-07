@@ -1,4 +1,5 @@
 import Filmstrip from './Filmstrip'
+import styles from './HeroCarousel.module.css'
 
 interface FilmstripProduct {
     handle: string
@@ -14,11 +15,11 @@ interface HeroSectionProps {
 export default function HeroSection({ products }: HeroSectionProps) {
     return (
         <section
-            className="w-full flex flex-col justify-between"
+            className={styles.hero}
             style={{ height: '100vh', scrollSnapAlign: 'start' }}
         >
-            <div className="pointer-events-none">
-                <div className="title-hero text-black">
+            <div className={styles.titleWrap}>
+                <div className={`title-hero ${styles.titleBlack}`}>
                     <div style={{ paddingLeft: '2%', paddingTop: 'clamp(60px, 8%, 0.3em)' }}>GARDEN</div>
                     <div style={{ paddingLeft: '18%' }}>GALLERY</div>
                 </div>
@@ -26,8 +27,8 @@ export default function HeroSection({ products }: HeroSectionProps) {
 
             {products.length > 0 && <Filmstrip products={products} />}
 
-            <div className="flex justify-end px-6 pb-6">
-                <p className="text-slogan text-black font-light text-right">
+            <div className={styles.sloganRow}>
+                <p className={`text-slogan ${styles.sloganText}`}>
                     Every flower blooms upon your arrival
                 </p>
             </div>

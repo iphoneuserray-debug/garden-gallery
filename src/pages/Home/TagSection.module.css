@@ -1,0 +1,123 @@
+.section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.headingWrap {
+    flex-shrink: 0;
+    padding: 4rem 1.5rem 0;
+}
+@media (min-width: 1024px) {
+    .headingWrap {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}
+
+.body {
+    display: flex;
+    flex: 1 1 0%;
+    min-height: 0;
+    flex-direction: column;
+    margin: 0.75rem;
+}
+@media (min-width: 1024px) {
+    .body {
+        flex-direction: row;
+        align-items: center;
+        padding-left: 2rem;
+        padding-right: 2rem;
+        padding-bottom: 2rem;
+        gap: 2rem;
+    }
+    .bodyReverse {
+        flex-direction: row-reverse;
+    }
+}
+
+.imageWrap {
+    position: relative;
+    overflow: hidden;
+    height: 40vh;
+}
+@media (min-width: 1024px) {
+    .imageWrap {
+        height: 65vh;
+        flex: 1 1 0%;
+    }
+}
+
+.image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 700ms;
+}
+
+.linksWrap {
+    margin: 0.75rem;
+    overflow: auto;
+}
+@media (min-width: 1024px) {
+    .linksWrap {
+        width: 36%;
+    }
+}
+
+.shopByLabel {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.4);
+    margin-bottom: 0.5rem;
+}
+@media (min-width: 1024px) {
+    .shopByLabel {
+        margin-bottom: 1rem;
+    }
+}
+
+.divider {
+    width: 100%;
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+.itemLink {
+    display: block;
+    padding: 0.75rem 0;
+    transition: opacity 200ms;
+}
+.itemLink:hover {
+    opacity: 0.6;
+}
+@media (min-width: 1024px) {
+    .itemLink {
+        padding: 1rem 0;
+    }
+}
+
+.contactWrap {
+    margin-top: 1rem;
+}
+
+.contactLink {
+    align-self: flex-start;
+    display: inline-flex;
+}
+
+.linkLabel {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: opacity 200ms;
+}
+.contactLink:hover .linkLabel {
+    opacity: 0.6;
+}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowUpRight } from 'lucide-react'
+import styles from './TagSection.module.css'
 
 const FALLBACK_IMAGES: Record<string, string> = {
     Wedding: '/category/wedding.jpg',
@@ -45,49 +46,49 @@ export default function TagSection({ title, subCategories, tagImages, reverse = 
 
     return (
         <section
-            className="w-full flex flex-col"
+            className={styles.section}
             style={{ height: '100vh', scrollSnapAlign: 'start' }}
         >
-            <div className="shrink-0 px-6 lg:px-8 pt-16">
+            <div className={styles.headingWrap}>
                 <h2 className="title-section">{title}</h2>
             </div>
 
-            <div className={`flex flex-1 min-h-0 flex-col m-3 lg:items-center lg:px-8 lg:pb-8 lg:gap-8 ${reverse ? 'lg:flex-row-reverse' : 'lg:flex-row'}`}>
+            <div className={`${styles.body} ${reverse ? styles.bodyReverse : ''}`}>
                 {/* Image */}
-                <div className="relative overflow-hidden h-[40vh] lg:h-[65vh] lg:flex-1">
+                <div className={styles.imageWrap}>
                     {items.map((item, i) => (
                         <img
                             key={item.label}
                             src={item.image}
                             alt={item.label}
-                            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700"
+                            className={styles.image}
                             style={{ opacity: activeIdx === i ? 1 : 0, objectPosition: 'center 30%' }}
                         />
                     ))}
                 </div>
 
                 {/* Links */}
-                <div className="m-3 lg:w-[36%] overflow-auto">
-                    <p className="text-xs tracking-[0.25em] uppercase text-black/40 mb-2 lg:mb-4">
+                <div className={styles.linksWrap}>
+                    <p className={styles.shopByLabel}>
                         Shop by {title}
                     </p>
                     {items.map(item => (
                         <div key={item.label}>
-                            <div className="w-full h-px bg-black/15" />
+                            <div className={styles.divider} />
                             <Link
                                 to={item.href}
-                                className="block py-3 lg:py-4 hover:opacity-60 transition-opacity duration-200"
+                                className={styles.itemLink}
                             >
                                 <h3 className="title-item">{item.label}</h3>
                             </Link>
                         </div>
                     ))}
-                    <div className="w-full h-px bg-black/15" />
+                    <div className={styles.divider} />
 
                     {showContact && (
-                        <div className="mt-4">
-                            <Link to="/contact" className="group self-start inline-flex">
-                                <span className="flex items-center gap-1 font-bold tracking-widest uppercase transition-all duration-200 group-hover:opacity-60 text-nav">
+                        <div className={styles.contactWrap}>
+                            <Link to="/contact" className={styles.contactLink}>
+                                <span className={`${styles.linkLabel} text-nav`}>
                                     Custom Order
                                     <ArrowUpRight size={16} strokeWidth={2.5} />
                                 </span>

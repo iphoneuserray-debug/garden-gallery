@@ -4,6 +4,7 @@ import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
+import styles from './Login.module.css';
 
 interface LoginProps {
     onLogin: (email: string, password: string) => void;
@@ -16,7 +17,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        
+
         if (!email || !password) {
             setError('Please fill in all fields');
             return;
@@ -27,20 +28,20 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-background to-muted p-4">
-            <Card className="w-full max-w-md">
-                <CardHeader className="text-center">
-                    <CardTitle className="text-2xl">Login</CardTitle>
+        <div className={styles.wrapper}>
+            <Card className={styles.card}>
+                <CardHeader className={styles.cardHeader}>
+                    <CardTitle className={styles.cardTitle}>Login</CardTitle>
                 </CardHeader>
 
-                <form onSubmit={handleSubmit} className="space-y-4 px-6 pb-6">
+                <form onSubmit={handleSubmit} className={styles.form}>
                     {error && (
-                        <div className="p-3 bg-destructive/10 border border-destructive text-destructive rounded-md text-sm">
+                        <div className={styles.errorBox}>
                             {error}
                         </div>
                     )}
 
-                    <div className="space-y-2">
+                    <div className={styles.field}>
                         <Label htmlFor="email">Email</Label>
                         <Input
                             id="email"
@@ -51,7 +52,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                         />
                     </div>
 
-                    <div className="space-y-2">
+                    <div className={styles.field}>
                         <Label htmlFor="password">Password</Label>
                         <Input
                             id="password"
@@ -62,12 +63,12 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                         />
                     </div>
 
-                    <Button type="submit" className="w-full mt-6">
+                    <Button type="submit" className={styles.submitButton}>
                         Login
                     </Button>
 
-                    <div className="text-center mt-4">
-                        <Link to="/" className="text-sm text-primary hover:text-primary/80 underline transition-colors">
+                    <div className={styles.backLinkWrap}>
+                        <Link to="/" className={styles.backLink}>
                             Back
                         </Link>
                     </div>

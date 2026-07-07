@@ -1,0 +1,26 @@
+.hero {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.titleWrap {
+    pointer-events: none;
+}
+
+.titleBlack {
+    color: #000;
+}
+
+.sloganRow {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 1.5rem 1.5rem;
+}
+
+.sloganText {
+    color: #000;
+    font-weight: 300;
+    text-align: right;
+}

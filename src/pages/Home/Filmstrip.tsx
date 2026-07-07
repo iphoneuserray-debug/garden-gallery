@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
+import styles from './Filmstrip.module.css'
 
 interface FilmstripProduct {
     handle: string
@@ -60,7 +61,7 @@ export default function Filmstrip({ products, className = '' }: FilmstripProps) 
     return (
         <div
             ref={ref}
-            className={`filmstrip-height w-full flex overflow-x-auto cursor-grab active:cursor-grabbing select-none ${className}`}
+            className={`filmstrip-height ${styles.track} ${className}`}
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' } as React.CSSProperties}
             onMouseDown={onMouseDown}
             onMouseMove={onMouseMove}
@@ -71,7 +72,7 @@ export default function Filmstrip({ products, className = '' }: FilmstripProps) 
                 <Link
                     key={i}
                     to={`/detail/${p.handle}`}
-                    className="filmstrip-card overflow-hidden group relative flex-shrink-0"
+                    className={`filmstrip-card group ${styles.card}`}
                     style={{ marginRight: '2px' }}
                     draggable={false}
                     onClick={e => { if (didDrag.current) e.preventDefault() }}
@@ -80,22 +81,22 @@ export default function Filmstrip({ products, className = '' }: FilmstripProps) 
                         src={p.src}
                         alt={p.name}
                         draggable={false}
-                        className="w-full h-full object-cover transition-transform duration-500 ease-out"
+                        className={styles.image}
                     />
                     {/* Dark overlay on hover */}
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+                    <div className={styles.overlay} />
                     {/* Persistent gradient */}
                     <div
-                        className="absolute inset-0"
+                        className={styles.gradient}
                         style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, transparent 40%, transparent 60%, rgba(0,0,0,0.45) 100%)' }}
                     />
                     {/* Name slides from top */}
-                    <div className="filmstrip-info-top absolute top-0 left-0 right-0 px-3 pt-3 transition-transform duration-300 ease-out">
-                        <span className="text-white font-semibold text-base tracking-wide drop-shadow">{p.name}</span>
+                    <div className={`filmstrip-info-top ${styles.infoTop}`}>
+                        <span className={styles.name}>{p.name}</span>
                     </div>
                     {/* Price slides from bottom */}
-                    <div className="filmstrip-info-bottom absolute bottom-0 left-0 right-0 px-3 pb-3 transition-transform duration-300 ease-out">
-                        <span className="text-white font-bold text-lg drop-shadow">{p.price}</span>
+                    <div className={`filmstrip-info-bottom ${styles.infoBottom}`}>
+                        <span className={styles.price}>{p.price}</span>
                     </div>
                 </Link>
             ))}

@@ -1,0 +1,66 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, var(--background), var(--muted));
+    padding: 1rem;
+}
+
+.card {
+    width: 100%;
+    max-width: 28rem;
+}
+
+.cardHeader {
+    text-align: center;
+}
+
+.cardTitle {
+    font-size: 1.5rem;
+    line-height: 2rem;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+.errorBox {
+    padding: 0.75rem;
+    background-color: color-mix(in srgb, var(--destructive) 10%, transparent);
+    border: 1px solid var(--destructive);
+    color: var(--destructive);
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.submitButton {
+    width: 100%;
+    margin-top: 1.5rem;
+}
+
+.backLinkWrap {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.backLink {
+    font-size: 0.875rem;
+    color: var(--primary);
+    text-decoration: underline;
+    transition: color 150ms;
+}
+.backLink:hover {
+    color: color-mix(in srgb, var(--primary) 80%, transparent);
+}

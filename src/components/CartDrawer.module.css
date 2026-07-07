@@ -1,0 +1,192 @@
+.wrapper {
+    background-color: #F5EEE0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 1.5rem 2rem;
+}
+
+.title {
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #000;
+    font-size: clamp(20px, 2.5vw, 26px);
+}
+
+.closeButton {
+    color: rgba(0, 0, 0, 0.4);
+    transition: color 150ms;
+}
+.closeButton:hover {
+    color: #000;
+}
+
+.itemsWrap {
+    flex: 1 1 0%;
+    overflow-y: auto;
+    padding: 1.5rem 2rem;
+}
+
+.emptyText {
+    color: rgba(0, 0, 0, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.itemsList {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.itemRow {
+    display: flex;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 1.5rem;
+}
+
+.itemImg {
+    height: 6rem;
+    width: 6rem;
+    object-fit: cover;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.itemInfo {
+    min-width: 0;
+    flex: 1 1 0%;
+}
+
+.itemTopRow {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.itemTitle {
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.itemBadge {
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(0, 0, 0, 0.4);
+}
+
+.removeButton {
+    color: rgba(0, 0, 0, 0.4);
+    transition: color 150ms;
+}
+.removeButton:hover {
+    color: #000;
+}
+
+.itemPrice {
+    margin-top: 0.75rem;
+    font-size: 0.875rem;
+}
+
+.qtyRow {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.qtyControls {
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.qtyButton {
+    display: flex;
+    height: 2rem;
+    width: 2rem;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 150ms;
+}
+.qtyButton:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.qtyValue {
+    display: flex;
+    height: 2rem;
+    min-width: 2rem;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid rgba(0, 0, 0, 0.2);
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 0 0.5rem;
+    font-size: 0.875rem;
+}
+
+.lineTotal {
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.footer {
+    padding: 1rem 2rem 2rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.subtotalRow {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.subtotalLabel {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.subtotalValue {
+    font-weight: 600;
+    color: #000;
+}
+
+.checkoutButton {
+    width: 100%;
+    background-color: #000;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    padding: 1rem 0;
+    font-size: 0.875rem;
+    border: 1px solid #000;
+    transition: color 200ms, background-color 200ms;
+}
+.checkoutButton:hover {
+    background-color: #fff;
+    color: #000;
+}
+.checkoutButton:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+}

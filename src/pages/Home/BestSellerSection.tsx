@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { ArrowUpRight } from 'lucide-react'
 import Filmstrip from './Filmstrip'
+import styles from './BestSellerSection.module.css'
 
 interface FilmstripProduct {
     handle: string
@@ -17,14 +18,14 @@ interface BestSellerSectionProps {
 export default function BestSellerSection({ title, products }: BestSellerSectionProps) {
     return (
         <section
-            className="w-full flex flex-col justify-center"
+            className={styles.section}
             style={{ height: '100vh', scrollSnapAlign: 'start' }}
         >
             <h2 className="title-page">{title}</h2>
             {products.length > 0 && <Filmstrip products={products} />}
-            <div className="flex justify-end m-5">
-                <Link to="/products" className="group self-start">
-                    <span className="flex items-center gap-1 font-bold tracking-widest uppercase transition-all duration-200 group-hover:opacity-60 text-nav">
+            <div className={styles.footerRow}>
+                <Link to="/products" className={styles.shopAllLink}>
+                    <span className={`${styles.linkLabel} text-nav`}>
                         Shop All
                         <ArrowUpRight size={16} strokeWidth={2.5} />
                     </span>
