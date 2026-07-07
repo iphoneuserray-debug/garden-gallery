@@ -3,8 +3,19 @@ import { useSearchParams, Link } from 'react-router-dom'
 import { SlidersHorizontal, ChevronLeft, X } from 'lucide-react'
 import { Crumb } from '@/components/Crumb'
 import FilterPanel, { type Filters } from './FilterPanel'
+import { Skeleton } from '@/components/ui/skeleton'
 import { fetchProducts } from '@/lib/api'
 import type { Product } from '@/lib/api'
+
+function ProductCardSkeleton() {
+    return (
+        <div>
+            <Skeleton className="aspect-[4/5] w-full" />
+            <Skeleton className="mt-2 h-4 w-3/4" />
+            <Skeleton className="mt-2 h-3 w-1/3" />
+        </div>
+    )
+}
 
 function ProductCard({ title, price, imgSrc, to }: { title: string; price: string; imgSrc: string; to: string }) {
     return (
@@ -52,8 +63,11 @@ export default function Products() {
                 setAllProducts(prods)
                 const max = Math.ceil(Math.max(0, ...prods.map(p => p.priceNum)) / 10) * 10
                 const tags = prods.flatMap(p => p.tags)
+                // Use the tag exactly as given, even if it matches no product — that way an
+                // unrecognized/typo'd tag (e.g. a nav link for a category with no products yet)
+                // correctly filters down to zero results instead of silently showing everything.
                 const preTag = tagParam
-                    ? tags.find(t => t.toLowerCase() === tagParam.toLowerCase()) ?? null
+                    ? (tags.find(t => t.toLowerCase() === tagParam.toLowerCase()) ?? tagParam.toLowerCase())
                     : null
                 setFilters(f => ({
                     ...f,
@@ -66,15 +80,19 @@ export default function Products() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    // When URL tag param changes (e.g. navigating between categories), sync it
+    // When the URL tag param changes (e.g. navigating between categories, or to a
+    // tag-less link like "Shop All"), sync the filters to match — clearing everything
+    // when there's no tag so a fresh nav link always starts from an unfiltered view.
     useEffect(() => {
-        if (!tagParam || allProducts.length === 0) return
-        const canonical = allTags.find(t => t.toLowerCase() === tagParam.toLowerCase())
-        if (canonical && !filters.tags.includes(canonical)) {
-            setFilters(f => ({ ...f, tags: [canonical] }))
+        if (allProducts.length === 0) return
+        if (!tagParam) {
+            setFilters({ priceRange: [0, maxPrice], inStock: 'all', tags: [] })
+            return
         }
+        const canonical = allTags.find(t => t.toLowerCase() === tagParam.toLowerCase()) ?? tagParam.toLowerCase()
+        setFilters(f => f.tags.length === 1 && f.tags[0] === canonical ? f : { priceRange: f.priceRange, inStock: f.inStock, tags: [canonical] })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [tagParam, allTags])
+    }, [tagParam, allTags, allProducts.length])
 
     const filtered = useMemo(() => {
         let list = allProducts
@@ -154,13 +172,13 @@ export default function Products() {
                 )}
 
                 <div className="flex-1 min-w-0">
-                    {loading && <p className="text-sm text-black/40">Loading products…</p>}
                     {error && <p className="text-sm text-red-500">{error}</p>}
                     {!loading && !error && filtered.length === 0 && (
                         <p className="text-sm text-black/40 uppercase tracking-widest">No products match your filters.</p>
                     )}
                     <div className="grid grid-cols-2 lg:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-x-3 gap-y-8">
-                        {filtered.map(p => (
+                        {loading && Array.from({ length: 8 }).map((_, i) => <ProductCardSkeleton key={i} />)}
+                        {!loading && filtered.map(p => (
                             <ProductCard
                                 key={p.id}
                                 title={p.title}

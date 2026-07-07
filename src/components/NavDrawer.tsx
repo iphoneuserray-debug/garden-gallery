@@ -2,14 +2,18 @@ import { useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Link, useNavigate } from 'react-router-dom'
 import { X, User, Search, ChevronUp, ChevronDown } from 'lucide-react'
+import { EVENT_TYPES, FLOWER_TYPES } from '@/lib/navLinks'
 
 interface DrawerProps {
     open: boolean
     onClose: () => void
     children: React.ReactNode
+    side?: 'left' | 'right'
 }
 
-export function Drawer({ open, onClose, children }: DrawerProps) {
+export function Drawer({ open, onClose, children, side = 'right' }: DrawerProps) {
+    const sideClass = side === 'left' ? 'left-0' : 'right-0'
+    const closedTransform = side === 'left' ? 'translateX(-100%)' : 'translateX(100%)'
     return createPortal(
         <>
             <div
@@ -18,8 +22,8 @@ export function Drawer({ open, onClose, children }: DrawerProps) {
                 onClick={onClose}
             />
             <div
-                className="fixed top-0 right-0 z-[110] h-screen w-80 transition-transform duration-300 ease-in-out flex flex-col"
-                style={{ transform: open ? 'translateX(0)' : 'translateX(100%)' }}
+                className={`fixed top-0 ${sideClass} z-[110] h-screen w-80 transition-transform duration-300 ease-in-out flex flex-col`}
+                style={{ transform: open ? 'translateX(0)' : closedTransform }}
             >
                 {children}
             </div>
@@ -27,24 +31,6 @@ export function Drawer({ open, onClose, children }: DrawerProps) {
         document.body,
     )
 }
-
-const EVENT_TYPES = [
-    { label: 'Wedding', href: '/products?tag=wedding' },
-    { label: 'Birthday', href: '/products?tag=birthday' },
-    { label: 'Anniversary', href: '/products?tag=anniversary' },
-    { label: 'Corporate', href: '/products?tag=corporate' },
-    { label: 'Funeral', href: '/products?tag=funeral' },
-]
-
-const FLOWER_TYPES = [
-    { label: 'Rose', href: '/products?tag=rose' },
-    { label: 'Tulip', href: '/products?tag=tulip' },
-    { label: 'Lily', href: '/products?tag=lily' },
-    { label: 'Sunflower', href: '/products?tag=sunflower' },
-    { label: 'Orchid', href: '/products?tag=orchid' },
-    { label: 'Daisy', href: '/products?tag=daisy' },
-    { label: 'Peony', href: '/products?tag=peony' },
-]
 
 interface NavDrawerProps {
     open: boolean
@@ -67,8 +53,8 @@ export default function NavDrawer({ open, onClose }: NavDrawerProps) {
     }
 
     return (
-        <Drawer open={open} onClose={onClose}>
-            <div className="bg-black flex flex-col h-full px-8 py-8 overflow-y-auto">
+        <Drawer open={open} onClose={onClose} side="left">
+            <div className="bg-black flex flex-col h-full px-8 py-8">
                 <div className="mb-10 flex items-start justify-between">
                     <h1
                         className="font-black text-white uppercase leading-none"
@@ -106,7 +92,6 @@ export default function NavDrawer({ open, onClose }: NavDrawerProps) {
                     {[
                         { label: 'Home', href: '/' },
                         { label: 'Shop All', href: '/products' },
-                        { label: 'Events', href: '/events' },
                     ].map(l => (
                         <Link
                             key={l.href}

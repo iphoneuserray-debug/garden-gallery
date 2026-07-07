@@ -48,7 +48,7 @@
 :root {
     --rpx: calc(min(100vw, 1600px) / 750);
     --radius: 0.625rem;
-    --background: #f5eee0;
+    --background: oklch(1 0 0);
     --foreground: oklch(0.145 0 0);
     --card: oklch(1 0 0);
     --card-foreground: oklch(0.145 0 0);
