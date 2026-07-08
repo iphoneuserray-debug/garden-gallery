@@ -1,6 +1,14 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowUpRight } from 'lucide-react'
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from '@/components/ui/dialog'
 import styles from './CategoriesSection.module.css'
 
 const CATEGORIES = [
@@ -12,30 +20,53 @@ const CATEGORIES = [
     { label: 'Lily', image: '/category/lily.jpg', href: '/products?tag=lily' },
 ]
 
-const QUICK_LINKS = [
+const QUICK_LINKS: { label: string; href?: string }[] = [
     { label: 'Shop All', href: '/products' },
     { label: 'Subscription', href: '/products?tag=subscription' },
-    { label: 'Contact Us', href: '/contact' },
+    { label: 'Custom Yours', href: '/products?tag=roses,tulips,lilies,sunflowers' },
+    { label: 'Contact Us' },
 ]
 
 export default function CategoriesSection() {
     const [hovered, setHovered] = useState<string | null>(null)
 
+    const linkContent = (label: string) => (
+        <>
+            <span className={`${styles.linkLabel} text-nav`}>
+                {label}
+                <ArrowUpRight size={16} className={styles.arrow} strokeWidth={2.5} />
+            </span>
+            <span className={styles.underline} />
+        </>
+    )
+
     const links = (
         <div className={styles.linksList}>
-            {QUICK_LINKS.map(l => (
-                <Link
-                    key={l.href}
-                    to={l.href}
-                    className={styles.quickLink}
-                >
-                    <span className={`${styles.linkLabel} text-nav`}>
-                        {l.label}
-                        <ArrowUpRight size={16} className={styles.arrow} strokeWidth={2.5} />
-                    </span>
-                    <span className={styles.underline} />
-                </Link>
-            ))}
+            {QUICK_LINKS.map(l =>
+                l.href ? (
+                    <Link key={l.label} to={l.href} className={styles.quickLink}>
+                        {linkContent(l.label)}
+                    </Link>
+                ) : (
+                    <Dialog key={l.label}>
+                        <DialogTrigger asChild>
+                            <button type="button" className={styles.quickLink}>
+                                {linkContent(l.label)}
+                            </button>
+                        </DialogTrigger>
+                        <DialogContent>
+                            <DialogHeader>
+                                <DialogTitle className="text-[1.125rem] font-bold text-[#1d1d1f]">Contact Us</DialogTitle>
+                                <DialogDescription className="text-[#6e6e73]">We'd love to hear from you.</DialogDescription>
+                            </DialogHeader>
+                            <div className="text-sm text-[#6e6e73]">
+                                <p>Email: info@flowerstore.com</p>
+                                <p>Phone: (555) 123-4567</p>
+                            </div>
+                        </DialogContent>
+                    </Dialog>
+                )
+            )}
         </div>
     )
 

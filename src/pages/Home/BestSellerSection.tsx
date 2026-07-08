@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom'
-import { ArrowUpRight } from 'lucide-react'
 import Filmstrip from './Filmstrip'
 import styles from './BestSellerSection.module.css'
 
@@ -23,14 +21,6 @@ export default function BestSellerSection({ title, products }: BestSellerSection
         >
             <h2 className="title-page">{title}</h2>
             {products.length > 0 && <Filmstrip products={products} />}
-            <div className={styles.footerRow}>
-                <Link to="/products" className={styles.shopAllLink}>
-                    <span className={`${styles.linkLabel} text-nav`}>
-                        Shop All
-                        <ArrowUpRight size={16} strokeWidth={2.5} />
-                    </span>
-                </Link>
-            </div>
         </section>
     )
 }

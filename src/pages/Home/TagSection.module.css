@@ -99,25 +99,3 @@
         padding: 1rem 0;
     }
 }
-
-.contactWrap {
-    margin-top: 1rem;
-}
-
-.contactLink {
-    align-self: flex-start;
-    display: inline-flex;
-}
-
-.linkLabel {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    transition: opacity 200ms;
-}
-.contactLink:hover .linkLabel {
-    opacity: 0.6;
-}

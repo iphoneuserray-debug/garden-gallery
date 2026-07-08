@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { ShoppingCart, Menu, ChevronDown } from 'lucide-react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { ShoppingCart, Menu, ChevronDown, Search } from 'lucide-react'
 import NavDrawer from './NavDrawer'
 import CartDrawer from './CartDrawer'
 import { useCart } from '@/context/CartContext'
@@ -10,13 +10,15 @@ import styles from './Header.module.css'
 
 export default function Header() {
     const { pathname } = useLocation()
+    const navigate = useNavigate()
     const { cartCount } = useCart()
     const [cartOpen, setCartOpen] = useState(false)
     const [navOpen, setNavOpen] = useState(false)
-    const [cautionVisible, setCautionVisible] = useState(true)
+    const [searchOpen, setSearchOpen] = useState(false)
+    const [searchQuery, setSearchQuery] = useState('')
     const [badgeKey, setBadgeKey] = useState(0)
     const prevCount = useRef(cartCount)
-    const lastScrollY = useRef(0)
+    const searchRef = useRef<HTMLDivElement>(null)
     const isHome = pathname === '/'
 
     useEffect(() => {
@@ -25,25 +27,24 @@ export default function Header() {
     }, [cartCount])
 
     useEffect(() => {
-        setCautionVisible(true)
-        lastScrollY.current = window.scrollY
-    }, [pathname])
-
-    useEffect(() => {
-        const onScroll = () => {
-            const y = window.scrollY
-            if (y > lastScrollY.current && y > 50) {
-                setCautionVisible(false)
-            } else if (y < lastScrollY.current) {
-                setCautionVisible(true)
+        if (!searchOpen) return
+        const onClickOutside = (e: MouseEvent) => {
+            if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+                setSearchOpen(false)
             }
-            lastScrollY.current = y
         }
-        window.addEventListener('scroll', onScroll, { passive: true })
-        return () => window.removeEventListener('scroll', onScroll)
-    }, [])
+        document.addEventListener('mousedown', onClickOutside)
+        return () => document.removeEventListener('mousedown', onClickOutside)
+    }, [searchOpen])
 
-    const stackHidden = isHome && !cautionVisible
+    const handleSearch = (e: React.FormEvent) => {
+        e.preventDefault()
+        const q = searchQuery.trim()
+        if (!q) return
+        navigate(`/products?q=${encodeURIComponent(q)}`)
+        setSearchQuery('')
+        setSearchOpen(false)
+    }
 
     const CartButton = ({ className = '' }: { className?: string }) => (
         <button
@@ -61,10 +62,7 @@ export default function Header() {
 
     return (
         <>
-            <div
-                className={styles.stack}
-                style={{ transform: stackHidden ? 'translateY(-100%)' : 'translateY(0)' }}
-            >
+            <div className={styles.stack}>
                 <header className={styles.header}>
                     {/* Desktop nav */}
                     <div className={styles.desktopNav}>
@@ -104,6 +102,31 @@ export default function Header() {
                             </div>
                         </nav>
 
+                        <div className={styles.searchWrap} ref={searchRef}>
+                            <button
+                                onClick={() => setSearchOpen(v => !v)}
+                                className={styles.searchToggle}
+                                aria-label="Toggle search"
+                            >
+                                <Search className={styles.searchIcon} strokeWidth={2} strokeLinecap="square" strokeLinejoin="miter" />
+                            </button>
+                            <div className={`${styles.searchDropdown} ${searchOpen ? styles.searchDropdownOpen : ''}`}>
+                                <form onSubmit={handleSearch} className={styles.searchDropdownForm}>
+                                    <input
+                                        type="search"
+                                        value={searchQuery}
+                                        onChange={e => setSearchQuery(e.target.value)}
+                                        placeholder="Search..."
+                                        autoFocus={searchOpen}
+                                        className={styles.searchDropdownInput}
+                                    />
+                                    <button type="submit" className={styles.searchDropdownSubmit} aria-label="Submit search">
+                                        <Search size={14} strokeWidth={2} />
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
                         <CartButton className={styles.cartButtonDesktop} />
                     </div>
 
@@ -114,7 +137,6 @@ export default function Header() {
                             className={styles.menuButton}
                         >
                             <Menu className={styles.menuIcon} strokeWidth={2} />
-                            <span className={styles.menuLabel}>Menu</span>
                         </button>
 
                         <Link to="/" className={styles.mobileLogoLink}>
@@ -124,12 +146,9 @@ export default function Header() {
                         <CartButton />
                     </div>
                 </header>
-
-                {isHome && <Caution>Pick Up Only at Melbourne Center Every Tuesday</Caution>}
             </div>
 
-            {/* Spacer so page content doesn't start behind the fixed header (+ caution bar on home) */}
-            <div className={styles.spacer} style={{ marginTop: isHome ? '36px' : '0px' }} />
+            {isHome && <Caution>Pick Up Only at Melbourne Center Every Tuesday</Caution>}
 
             <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
             <NavDrawer open={navOpen} onClose={() => setNavOpen(false)} />

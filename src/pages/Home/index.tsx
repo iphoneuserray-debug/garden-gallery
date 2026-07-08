@@ -40,7 +40,6 @@ export default function Home() {
             <BestSellerSection title="Best Seller" products={filmProducts} />
             <TagSection
                 title="Event"
-                showContact
                 tagImages={tagImages}
                 subCategories={['Wedding', 'Birthday', 'Anniversary', 'Corporate']}
             />

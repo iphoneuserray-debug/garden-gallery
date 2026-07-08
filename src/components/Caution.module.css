@@ -1,9 +1,7 @@
 .wrapper {
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.4);
-    color: #3E3E3E;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(4px);
+    background-color: #f5f5f7;
+    color: #1d1d1f;
 }
 
 .text {

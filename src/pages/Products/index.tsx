@@ -40,6 +40,13 @@ export default function Products() {
     const [searchParams, setSearchParams] = useSearchParams()
     const tagParam = searchParams.get('tag')
     const queryParam = searchParams.get('q')
+    // A URL tag param can list several comma-separated tags (e.g. from the "Custom Your
+    // Own Bouquet" link) — those are matched with OR semantics (any tag matches), distinct
+    // from the AND semantics used by the manual checkbox filters below.
+    const tagList = useMemo(
+        () => (tagParam ? tagParam.split(',').map(t => t.trim().toLowerCase()).filter(Boolean) : []),
+        [tagParam]
+    )
 
     const clearQuery = () => {
         const next = new URLSearchParams(searchParams)
@@ -67,8 +74,9 @@ export default function Products() {
                 // Use the tag exactly as given, even if it matches no product — that way an
                 // unrecognized/typo'd tag (e.g. a nav link for a category with no products yet)
                 // correctly filters down to zero results instead of silently showing everything.
-                const preTag = tagParam
-                    ? (tags.find(t => t.toLowerCase() === tagParam.toLowerCase()) ?? tagParam.toLowerCase())
+                // Multi-tag URLs (OR semantics) are handled separately in `filtered` below.
+                const preTag = tagList.length === 1
+                    ? (tags.find(t => t.toLowerCase() === tagList[0]) ?? tagList[0])
                     : null
                 setFilters(f => ({
                     ...f,
@@ -83,14 +91,15 @@ export default function Products() {
 
     // When the URL tag param changes (e.g. navigating between categories, or to a
     // tag-less link like "Shop All"), sync the filters to match — clearing everything
-    // when there's no tag so a fresh nav link always starts from an unfiltered view.
+    // when there's no single tag so a fresh nav link always starts from an unfiltered view.
+    // (Multi-tag OR links are applied directly in `filtered` below, not through this state.)
     useEffect(() => {
         if (allProducts.length === 0) return
-        if (!tagParam) {
+        if (tagList.length !== 1) {
             setFilters({ priceRange: [0, maxPrice], inStock: 'all', tags: [] })
             return
         }
-        const canonical = allTags.find(t => t.toLowerCase() === tagParam.toLowerCase()) ?? tagParam.toLowerCase()
+        const canonical = allTags.find(t => t.toLowerCase() === tagList[0]) ?? tagList[0]
         setFilters(f => f.tags.length === 1 && f.tags[0] === canonical ? f : { priceRange: f.priceRange, inStock: f.inStock, tags: [canonical] })
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [tagParam, allTags, allProducts.length])
@@ -105,12 +114,15 @@ export default function Products() {
                 (p.description ?? '').toLowerCase().includes(q)
             )
         }
+        if (tagList.length > 1) {
+            list = list.filter(p => p.tags.some(t => tagList.includes(t.toLowerCase())))
+        }
         list = list.filter(p => p.priceNum >= filters.priceRange[0] && p.priceNum <= filters.priceRange[1])
         if (filters.inStock === 'in') list = list.filter(p => p.inStock)
         if (filters.inStock === 'out') list = list.filter(p => !p.inStock)
         if (filters.tags.length > 0) list = list.filter(p => filters.tags.every(t => p.tags.includes(t)))
         return list
-    }, [allProducts, filters, queryParam])
+    }, [allProducts, filters, queryParam, tagList])
 
     const removeTag = (tag: string) => setFilters(f => ({ ...f, tags: f.tags.filter(t => t !== tag) }))
     const clearInStock = () => setFilters(f => ({ ...f, inStock: 'all' }))

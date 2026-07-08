@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowUpRight } from 'lucide-react'
 import styles from './TagSection.module.css'
 
 const FALLBACK_IMAGES: Record<string, string> = {
@@ -27,10 +26,9 @@ interface TagSectionProps {
     subCategories: string[]
     tagImages: Record<string, string>
     reverse?: boolean
-    showContact?: boolean
 }
 
-export default function TagSection({ title, subCategories, tagImages, reverse = false, showContact = false }: TagSectionProps) {
+export default function TagSection({ title, subCategories, tagImages, reverse = false }: TagSectionProps) {
     const items = subCategories.map(label => ({
         label,
         href: `/products?tag=${label.toLowerCase()}`,
@@ -84,17 +82,6 @@ export default function TagSection({ title, subCategories, tagImages, reverse = 
                         </div>
                     ))}
                     <div className={styles.divider} />
-
-                    {showContact && (
-                        <div className={styles.contactWrap}>
-                            <Link to="/contact" className={styles.contactLink}>
-                                <span className={`${styles.linkLabel} text-nav`}>
-                                    Custom Order
-                                    <ArrowUpRight size={16} strokeWidth={2.5} />
-                                </span>
-                            </Link>
-                        </div>
-                    )}
                 </div>
             </div>
         </section>

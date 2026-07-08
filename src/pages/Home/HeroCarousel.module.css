@@ -13,6 +13,31 @@
     color: #000;
 }
 
+.carouselGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.shopAllLink {
+    flex-shrink: 0;
+    align-self: flex-end;
+    margin: 0 1.5rem 0.75rem;
+}
+
+.linkLabel {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: #000;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: opacity 200ms;
+}
+.shopAllLink:hover .linkLabel {
+    opacity: 0.6;
+}
+
 .sloganRow {
     display: flex;
     justify-content: flex-end;
