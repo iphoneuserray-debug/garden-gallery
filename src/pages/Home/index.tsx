@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react'
-import HeroSection from './HeroCarousel'
+import HeroSection from './HeroSection'
 import CategoriesSection from './CategoriesSection'
-import BestSellerSection from './BestSellerSection'
-import TagSection from './TagSection'
 import { fetchProducts } from '@/lib/api'
 import type { Product } from '@/lib/api'
+import Products from './Products'
 
 interface FilmstripProduct {
     handle: string
@@ -15,7 +14,6 @@ interface FilmstripProduct {
 
 export default function Home() {
     const [filmProducts, setFilmProducts] = useState<FilmstripProduct[]>([])
-    const [tagImages, setTagImages] = useState<Record<string, string>>({})
 
     useEffect(() => {
         fetchProducts()
@@ -28,27 +26,15 @@ export default function Home() {
                         if (!imgs[key]) imgs[key] = p.imgSrc
                     })
                 })
-                setTagImages(imgs)
             })
-            .catch(() => {})
+            .catch(() => { })
     }, [])
 
     return (
         <div className="home-wrap">
             <HeroSection products={filmProducts} />
             <CategoriesSection />
-            <BestSellerSection title="Best Seller" products={filmProducts} />
-            <TagSection
-                title="Event"
-                tagImages={tagImages}
-                subCategories={['Wedding', 'Birthday', 'Anniversary', 'Corporate']}
-            />
-            <TagSection
-                title="Type"
-                reverse
-                tagImages={tagImages}
-                subCategories={['Rose', 'Tulip', 'Lily', 'Sunflower']}
-            />
+            <Products />
         </div>
     )
 }

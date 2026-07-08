@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { ArrowUpRight } from 'lucide-react'
 import Filmstrip from './Filmstrip'
-import styles from './HeroCarousel.module.css'
+import styles from './HeroSection.module.css'
 
 interface FilmstripProduct {
     handle: string

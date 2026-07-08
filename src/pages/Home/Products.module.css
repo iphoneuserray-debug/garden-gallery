@@ -1,0 +1,15 @@
+.wrap {
+    padding: 0 3rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 2.5rem;
+    row-gap: 3.5rem;
+}
+
+.errorText {
+    font-size: 0.875rem;
+    color: #ef4444;
+}

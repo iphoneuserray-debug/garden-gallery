@@ -1,48 +1,19 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useSearchParams, Link } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import { SlidersHorizontal, ChevronLeft, X } from 'lucide-react'
 import { Crumb } from '@/components/Crumb'
 import FilterPanel, { type Filters } from './FilterPanel'
-import { Skeleton } from '@/components/ui/skeleton'
 import { fetchProducts } from '@/lib/api'
 import type { Product } from '@/lib/api'
 import styles from './Products.module.css'
-
-function ProductCardSkeleton() {
-    return (
-        <div>
-            <Skeleton className={styles.skeletonImage} />
-            <Skeleton className={styles.skeletonTitle} />
-            <Skeleton className={styles.skeletonPrice} />
-        </div>
-    )
-}
-
-function ProductCard({ title, price, imgSrc, to }: { title: string; price: string; imgSrc: string; to: string }) {
-    return (
-        <Link to={to} className={styles.card}>
-            <div className={styles.cardImageWrap}>
-                <img
-                    src={imgSrc}
-                    alt={`${title}-Image`}
-                    className={styles.cardImage}
-                />
-            </div>
-            <div className={styles.cardInfo}>
-                <p className={styles.cardTitle}>{title}</p>
-                <p className={styles.cardPrice}>{price}</p>
-            </div>
-        </Link>
-    )
-}
+import ProductCard from '@/components/ProductCard'
+import ProductCardSkeleton from '@/components/ProductCardSkeleton'
 
 export default function Products() {
     const [searchParams, setSearchParams] = useSearchParams()
     const tagParam = searchParams.get('tag')
     const queryParam = searchParams.get('q')
-    // A URL tag param can list several comma-separated tags (e.g. from the "Custom Your
-    // Own Bouquet" link) — those are matched with OR semantics (any tag matches), distinct
-    // from the AND semantics used by the manual checkbox filters below.
+
     const tagList = useMemo(
         () => (tagParam ? tagParam.split(',').map(t => t.trim().toLowerCase()).filter(Boolean) : []),
         [tagParam]
@@ -86,13 +57,9 @@ export default function Products() {
             })
             .catch(err => setError(err.message))
             .finally(() => setLoading(false))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    // When the URL tag param changes (e.g. navigating between categories, or to a
-    // tag-less link like "Shop All"), sync the filters to match — clearing everything
-    // when there's no single tag so a fresh nav link always starts from an unfiltered view.
-    // (Multi-tag OR links are applied directly in `filtered` below, not through this state.)
     useEffect(() => {
         if (allProducts.length === 0) return
         if (tagList.length !== 1) {
@@ -101,7 +68,7 @@ export default function Products() {
         }
         const canonical = allTags.find(t => t.toLowerCase() === tagList[0]) ?? tagList[0]
         setFilters(f => f.tags.length === 1 && f.tags[0] === canonical ? f : { priceRange: f.priceRange, inStock: f.inStock, tags: [canonical] })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [tagParam, allTags, allProducts.length])
 
     const filtered = useMemo(() => {
@@ -134,7 +101,6 @@ export default function Products() {
         <>
             <Crumb items={[{ label: 'Products' }]} />
 
-            {/* Toggle + active filter pills row */}
             <div className={styles.toolbarRow}>
                 <button
                     onClick={() => setOpen(o => !o)}

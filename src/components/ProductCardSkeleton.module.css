@@ -1,0 +1,16 @@
+.skeletonImage {
+    aspect-ratio: 4 / 5;
+    width: 100%;
+}
+
+.skeletonTitle {
+    margin-top: 0.5rem;
+    height: 1rem;
+    width: 75%;
+}
+
+.skeletonPrice {
+    margin-top: 0.5rem;
+    height: 0.75rem;
+    width: 33.333%;
+}
