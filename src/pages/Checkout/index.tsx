@@ -94,12 +94,15 @@ export default function Checkout() {
     const [couponLoading, setCouponLoading] = useState(false)
 
     useEffect(() => {
-        if (cart.items.length === 0) { navigate('/'); return }
+        // Skip the empty-cart redirect once a payment is in flight/succeeded — clearCart()
+        // after a successful payment also empties the cart, which would otherwise bounce
+        // this still-mounted page back to "/" instead of letting navigate('/checkout/success') stick.
+        if (cart.items.length === 0) { if (!clientSecret) navigate('/'); return }
         fetch(`${API_BASE}/pickup-locations/active`)
             .then(r => r.json())
             .then((locs: PickupLocation[]) => { setPickupLocations(locs); if (locs.length > 0) setPickupId(locs[0].id) })
             .catch(() => {})
-    }, [cart.items.length, navigate])
+    }, [cart.items.length, navigate, clientSecret])
 
     const applyCoupon = async () => {
         if (!couponCode.trim()) return
