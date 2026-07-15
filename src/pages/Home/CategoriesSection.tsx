@@ -22,7 +22,6 @@ const CATEGORIES = [
 
 const QUICK_LINKS: { label: string; href?: string }[] = [
     { label: 'Shop All', href: '/products' },
-    { label: 'Subscription', href: '/products?tag=subscription' },
     { label: 'Custom Yours', href: '/products?tag=roses,tulips,lilies,sunflowers' },
     { label: 'Contact Us' },
 ]

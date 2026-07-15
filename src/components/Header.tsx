@@ -17,14 +17,31 @@ export default function Header() {
     const [searchOpen, setSearchOpen] = useState(false)
     const [searchQuery, setSearchQuery] = useState('')
     const [badgeKey, setBadgeKey] = useState(0)
+    const [hidden, setHidden] = useState(false)
     const prevCount = useRef(cartCount)
     const searchRef = useRef<HTMLDivElement>(null)
+    const lastScrollY = useRef(0)
     const isHome = pathname === '/'
 
     useEffect(() => {
         if (cartCount > prevCount.current) setBadgeKey(k => k + 1)
         prevCount.current = cartCount
     }, [cartCount])
+
+    useEffect(() => {
+        if (navOpen || cartOpen || searchOpen) {
+            setHidden(false)
+            return
+        }
+        const onScroll = () => {
+            const y = window.scrollY
+            const goingDown = y > lastScrollY.current
+            setHidden(y > 80 && goingDown)
+            lastScrollY.current = y
+        }
+        window.addEventListener('scroll', onScroll, { passive: true })
+        return () => window.removeEventListener('scroll', onScroll)
+    }, [navOpen, cartOpen, searchOpen])
 
     useEffect(() => {
         if (!searchOpen) return
@@ -63,7 +80,7 @@ export default function Header() {
     return (
         <>
             <div className={styles.stack}>
-                <header className={styles.header}>
+                <header className={`${styles.header} ${hidden ? styles.headerHidden : ''}`}>
                     {/* Desktop nav */}
                     <div className={styles.desktopNav}>
                         <Link to="/" className={styles.logoLink}>
@@ -147,6 +164,7 @@ export default function Header() {
                     </div>
                 </header>
             </div>
+            <div className={styles.mobileSpacer} />
 
             {isHome && <Caution>Pick Up Only at Melbourne Center Every Tuesday</Caution>}
 

@@ -5,9 +5,35 @@
     width: 100%;
 }
 
+@media (max-width: 767px) {
+    .stack {
+        position: fixed;
+        left: 0;
+        right: 0;
+    }
+}
+
+.mobileSpacer {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .mobileSpacer {
+        display: block;
+        height: 3rem;
+    }
+}
+
 .header {
     width: 100%;
     background-color: #fff;
+    transition: transform 250ms ease;
+}
+
+@media (max-width: 767px) {
+    .headerHidden {
+        transform: translateY(-100%);
+    }
 }
 
 .desktopNav {
@@ -239,7 +265,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 1rem;
-    height: 4rem;
+    height: 3rem;
     position: relative;
 }
 
@@ -247,6 +273,17 @@
     .mobileNav {
         display: none;
     }
+}
+
+.mobileNav .menuIcon,
+.mobileNav .cartIcon {
+    height: 1.25rem;
+    width: 1.25rem;
+}
+
+.mobileLogoLink .logoImg {
+    height: 1.75rem;
+    width: 1.75rem;
 }
 
 .menuButton {
