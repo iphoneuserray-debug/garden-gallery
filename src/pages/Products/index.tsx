@@ -29,7 +29,7 @@ export default function Products() {
     const [allProducts, setAllProducts] = useState<Product[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
-    const [open, setOpen] = useState(true)
+    const [open, setOpen] = useState(() => window.innerWidth >= 1024)
 
     const maxPrice = useMemo(() => Math.ceil(Math.max(0, ...allProducts.map(p => p.priceNum)) / 10) * 10, [allProducts])
     const allTags = useMemo(() => [...new Set(allProducts.flatMap(p => p.tags))].sort(), [allProducts])
