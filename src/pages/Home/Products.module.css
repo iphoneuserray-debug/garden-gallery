@@ -2,11 +2,24 @@
     padding: 0 3rem;
 }
 
+@media (max-width: 767px) {
+    .wrap {
+        padding: 0;
+    }
+}
+
 .grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     column-gap: 2.5rem;
     row-gap: 3.5rem;
+}
+
+@media (max-width: 767px) {
+    .grid {
+        column-gap: 1rem;
+        row-gap: 2.5rem;
+    }
 }
 
 .errorText {

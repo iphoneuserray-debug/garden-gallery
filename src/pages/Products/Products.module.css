@@ -70,7 +70,7 @@
 }
 @media (max-width: 767px) {
     .resultsCol {
-        padding: 0 0.75rem;
+        padding: 0;
     }
 }
 @media (min-width: 1024px) {
